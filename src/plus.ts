@@ -1,3 +1,3 @@
 export function plus(a: number, b: number): number {
-    return a
+    return a + b
 }

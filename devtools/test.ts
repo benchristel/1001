@@ -15,10 +15,15 @@ glob(testPaths)
     .then(getAllTests)
     .then(runTests)
     .then(reportResults)
-    .catch(console.error)
+    .catch(printErrorAndExit)
 
 function reportResults({results}: {results: TestResult[]}): void {
     const failed = results.some((result) => result.error)
     console.log(formatTestResultsAsText({results}))
     if (failed) process.exit(1)
+}
+
+function printErrorAndExit(e: Error) {
+    console.error(e)
+    process.exit(1)
 }

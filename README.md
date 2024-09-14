@@ -41,7 +41,17 @@ npm install  # one-time setup
 ./run lint   # run linter
 ./run fix    # fix lint
 ./run verify # run all checks (do this before you commit)
+./run st     # display codebase status
 ```
+
+`./run st` deserves a bit more explanation. It does the following:
+
+- Fixes lint
+- Adds all files to the git cache
+- Displays the diff that would be committed if you ran `git commit`
+- Displays the pass/fail status of the various checks.
+
+The intended use is to `./run st` before every commit, so you know exactly what's what.
 
 The [Husky](https://typicode.github.io/husky/) git hook framework will run `verify` automatically when you try to commit changes. To bypass this check, use `git commit -n` or `git commit --no-verify`.
 

@@ -2,6 +2,34 @@
 
 A software engineering tutorial which walks through the process of creating a NodeJS library, start to finish. Every step and decision is described in detail. The finished book will be compiled from a sequence of git commits that generate the finished library.
 
+## Introduction
+
+This is a different kind of book about software. In this book, I'm not going to lecture you about coding style, algorithms, or software design. I'm not going to talk about development process or best practices.
+
+Instead, I'm going to show you.
+
+Together, we will be writing a library of TypeScript functions that you can use as the building blocks of beautiful, maintainable programs. By following the step-by-step evolution of tests, types, and code, you'll see exactly how these functions work and why each facet and wrinkle is there.
+
+Additionally, you will learn:
+
+- What expert software engineers pay attention to while programming — and, just as important, what they _don't_ pay attention to.
+- How to create abstractions that let you write code in higher-level terms and raise the power level of your programming language.
+- How to separate custom, application-specific code from reusable, app-agnostic code.
+- Practical functional programming techniques, such as how to work effectively with immutable data and curried functions. (Don't worry, I won't mention monads[^monad] even once.)
+
+[^monad]: Well, okay, exactly once.
+
+Along the way, we'll visit many out-of-the way but useful features of JavaScript and TypeScript. If you don't yet feel that you've mastered these languages, I hope you will by the end of this book.
+
+That said, if you've never programmed in JavaScript or TypeScript, this book will not be a good introduction. I recommend other resources for that, which are freely available online:
+
+- [_Eloquent JavaScript_ by Marijn Haverbeke](https://eloquentjavascript.net/)
+- [The TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+
+The code examples in this book are released under a CC0 license, so you are free to do whatever you like with them. The prose is copyright Ben Christel; please don't redistribute or modify it. You can access it for free on the web.
+
+Above all, I hope this book shows you what a joyful experience programming can be.
+
 ## Development
 
 Dependencies: node 20.9.0, bun 0.6.12, npm 10.1.0

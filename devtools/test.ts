@@ -8,7 +8,7 @@ import {
     type TestResult
 } from "@benchristel/taste"
 
-const testPaths = join(__dirname, "..", process.argv[2] || "src/**/*.test.ts")
+const testPaths = join(__dirname, "..", "src", "**", "*.test.ts")
 
 glob(testPaths)
     .then((paths) => Promise.all(paths.map((path) => import(path))))

@@ -2,6 +2,19 @@
 
 A software engineering tutorial which walks through the process of creating a NodeJS library, start to finish. Every step and decision is described in detail. The finished book will be compiled from a sequence of git commits that generate the finished library.
 
+## Development
+
+Dependencies: node 20.9.0, bun 0.6.12, npm 10.1.0
+
+```sh
+npm install  # one-time setup
+./run test   # run unit tests
+./run ts     # run typechecker in watch mode
+./run lint   # run linter
+./run fix    # fix lint
+./run verify # run all checks (do this before you commit)
+```
+
 ## Why
 
 <details>

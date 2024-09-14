@@ -1,6 +1,0 @@
-#!/bin/bash -eo pipefail
-# lint changed files
-(
-  git diff --cached --name-only
-  git diff --name-only
-) | xargs bun run eslint

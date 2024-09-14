@@ -15,6 +15,8 @@ npm install  # one-time setup
 ./run verify # run all checks (do this before you commit)
 ```
 
+The [Husky](https://typicode.github.io/husky/) git hook framework will run `verify` automatically when you try to commit changes. To bypass this check, use `git commit -n` or `git commit --no-verify`.
+
 ## Why
 
 <details>

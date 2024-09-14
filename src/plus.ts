@@ -1,3 +1,3 @@
-export function plus(a: number, b: number): number {
+export function plus(a: number | string, b: number | string): number | string {
     return a + b
 }

@@ -1,0 +1,26 @@
+{
+  "name": "1001",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Functional utility library / book",
+  "main": "index.js",
+  "author": "Ben Christel",
+  "license": "MIT",
+  "devDependencies": {
+    "@benchristel/taste": "^0.6.0",
+    "@eslint/js": "8.56.0",
+    "@stylistic/eslint-plugin": "2.3.0",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/parser": "7.17.0",
+    "eslint": "8.56.0",
+    "glob": "^11.0.0",
+    "typescript": "5.5.4"
+  },
+  "scripts": {
+    "test": "devtools/test.ts",
+    "ts": "tsc --watch --noEmit",
+    "lint": "eslint src",
+    "fix": "eslint src --fix",
+    "verify": "devtools/test.ts && tsc --noEmit && eslint src"
+  }
+}

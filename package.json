@@ -15,12 +15,5 @@
     "eslint": "8.56.0",
     "glob": "^11.0.0",
     "typescript": "5.5.4"
-  },
-  "scripts": {
-    "test": "devtools/test.ts",
-    "ts": "tsc --watch --noEmit",
-    "lint": "eslint src",
-    "fix": "eslint src --fix",
-    "verify": "devtools/test.ts && tsc --noEmit && eslint src"
   }
 }

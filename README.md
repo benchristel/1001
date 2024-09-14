@@ -17,6 +17,25 @@ npm install  # one-time setup
 
 The [Husky](https://typicode.github.io/husky/) git hook framework will run `verify` automatically when you try to commit changes. To bypass this check, use `git commit -n` or `git commit --no-verify`.
 
+## Plan
+
+<details>
+<summary>show/hide author's notes</summary>
+
+I suspect that trying to write the code and prose together in one pass is going to be a nightmare. I'll certainly need to backtrack and fix up code at various points; if that also involves revisions to prose it will be much harder.
+
+Therefore, my current plan is to implement the functions first, committing each step of the TDD cycle separately. That means one commit for red, a second commit for green, and possibly a third commit for refactor. I will maintain a notes file so I remember interesting decisions I made along the way.
+
+Once the code is in a good state, I will start to write the prose, referencing specific commits for code examples. https://diff2html.xyz appears to be a good tool for converting git diffs to HTML. A template syntax like this should suffice:
+
+```
+{{diff [commit sha] --context-lines 5}}
+```
+
+If I'm using mdsite, that probably means writing a plugin system for it, which I've been meaning to do anyway.
+
+</details>
+
 ## Why
 
 <details>
@@ -26,8 +45,103 @@ I have several reasons for working on this particular project.
 
 1. Programmers who want to improve their craft face a hurdle: they don't encounter many examples of good code. They have to go out of their way to find such examples. The search is difficult. Good code is typically not labeled as such. No one is directing their attention to it. As a result, it's hard for new programmers to develop good taste in software.
 2. Reading good code isn't enough to know how to write it. The process of programming rarely mirrors the finished product in structure. To learn to program well, one needs to see what good process looks like — but it should be a somewhat sanitized, curated version of the process, with the false starts and mistakes abridged, and called out as soon as they happen.
-3. A common design problem I see in my daily work is that programs do not cleanly separate different domains or layers of abstraction. This lack of distinction makes the program harder to understand, and its parts impossible to reuse safely. In order to separate domains, one needs to be able to distinguish between application-specific and application-agnostic functions. It becomes easier to recognize application-agnostic functionality in a program when one has a ready-made concept, already learned, which fits the functionality. The library developed in this tutorial provides a vocabulary of such concepts.
+3. A common design problem I see in my daily work is that programs do not cleanly separate different domains or layers of abstraction. This lack of distinction makes the program harder to understand, and its parts impossible to reuse safely. In order to separate domains, one needs to be able to distinguish (at least) between application-specific and application-agnostic functions. It becomes easier to recognize application-agnostic functionality in a program when one has a ready-made concept, already learned, which fits the functionality. The library developed in this tutorial provides a vocabulary of such concepts.
 4. Another design problem I often see is that parsing and serialization are not distinguished from core business logic. The result is that all of the code is more complex and error-prone than it needs to be. I'd like to believe this problem arises because programmers aren't comfortable writing parsers and serializers, or don't know patterns for doing so. This tutorial will hopefully build that comfort and introduce those patterns.
 5. The final problem I aim to address is software development's lack of empiricism. By empiricism, I mean simply the engineer's ability to articulate why each facet or distinction in a design exists, by pointing out a specific, concrete problem that would occur if the distinction were not there. The lack of empiricism in software leads to designs that are more complicated, and thus more expensive to change, than they need to be. It also creates an atmosphere where engineers fear making significant changes to existing code, because they don't know what they might accidentally break. In this tutorial, I take an empirical approach, using examples of desired behavior to motivate each step in the evolution of the code. (Yes, this means TDD.) I have found the way of thinking that TDD teaches to be very valuable, whether or not I choose to write tests for any particular bit of code.
 
 </details>
+
+## Functions
+
+- is (===)
+- isCloseTo (compares floats - use Math.fround?)
+- exists (checks for nullishness)
+- plus
+- sum
+- times
+- product
+- mod
+- isEven
+- isOdd
+- isPOJO
+- inverse (1/x)
+- minus (unary)
+- keys
+- values
+- entries
+- average
+- get
+- update (immutably)
+- set (immutably)
+- getAt(path)
+- setAt(path)
+- append (immutable push)
+- concat
+- join
+- objectHash
+- objectDiff
+- zip
+- equals (deepEquals)
+- withIndex (used for `withIndex(array).map(f)`)
+
+### Higher Order Functions
+
+- map
+- filter
+- reduce (TODO: reduce or fold?)
+- reduceRight
+- find
+- findLast
+- contains(element)
+- includes(subCollection)
+- compose
+- composeRight
+- pass
+- pipe
+- Object.prototype._
+- curry
+- Y
+- trampoline
+
+### String Processing
+
+- pad (TODO research)
+- indent
+- trimMargin
+
+### Parsing
+
+- typed parser combinators
+
+### Serialization
+
+- pretty
+
+## Data Structures
+
+- nonempty list
+- zip list
+- heap
+- fiber?
+
+## Data Types
+
+- result/either
+- optional/maybe
+
+## Prototypical Stateful Objects
+
+- not "patterns" because patterns are abstract. I want to show you examples!
+
+- Observable
+- Reactive store
+- Caching (could be a whole chapter, maybe a whole book)
+- Stream wordcount
+- Stream parser
+- Signal?
+- Registry (e.g. a test registry)
+- seeded RNG
+
+### Functions for working with Promises
+
+TODO

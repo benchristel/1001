@@ -9,4 +9,8 @@ test("sum", {
     "returns a solitary number"() {
         expect(sum([42]), is, 42)
     },
+
+    "adds multiple numbers together"() {
+        expect(sum([1, 5, 2]), is, 8)
+    },
 })

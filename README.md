@@ -4,7 +4,7 @@ A software engineering tutorial which walks through the process of creating a No
 
 ## Introduction
 
-This is a different kind of book about software. In this book, I'm not going to lecture you about coding style, algorithms, or software design. I'm not going to talk about development process or best practices.
+This is a different kind of software book. In this book, I'm not going to lecture you about coding style, algorithms, or software design. I'm not going to talk about development process or best practices.
 
 Instead, I'm going to show you.
 
@@ -121,6 +121,7 @@ I have several reasons for working on this particular project.
 - zip
 - equals (deepEquals)
 - withIndex (used for `withIndex(array).map(f)`)
+- countTo (for use with `for...of` loops, replacing most C-style for loops)
 
 ### Higher Order Functions
 

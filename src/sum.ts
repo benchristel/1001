@@ -1,3 +1,5 @@
+import {plus} from "./plus.js"
+
 export function sum(numbers: number[]): number {
-    return numbers[0] ?? 0
+    return numbers.reduce(plus, 0)
 }

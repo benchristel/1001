@@ -1,4 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
+import {str} from "./str.js"
 
 test("str", {
     "returns empty string given an empty array"() {

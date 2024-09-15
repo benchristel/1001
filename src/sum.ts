@@ -1,3 +1,3 @@
 export function sum(numbers: number[]): number {
-    return 0
+    return numbers[0] ?? 0
 }

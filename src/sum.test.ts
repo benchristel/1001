@@ -13,4 +13,8 @@ test("sum", {
     "adds multiple numbers together"() {
         expect(sum([1, 5, 2]), is, 8)
     },
+
+    "concatenates strings??"() {
+        expect(sum(["a", "b", "c"]), is, "abc")
+    },
 })

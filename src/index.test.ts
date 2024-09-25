@@ -32,33 +32,43 @@ function sum(numbers: number[]): number {
     return numbers.reduce(add, 0)
 }
 
-test("the result of curry()", {
-    "can be called with all its arguments"() {
-        const result: number = curry(add)(1, 2)
-        expect(result, is, 3)
-    },
+{
+    const curriedAdd = curry((a: number, b: number) => a + b)
 
-    "can be passed two arguments one by one"() {
-        expect(curry(add)(1)(2), is, 3)
-    },
+    test("a curried add() function", {
+        "can be given both arguments at once"() {
+            const result = curriedAdd(1, 2)
+            expect(result, is, 3)
+        },
 
-    "can be passed three arguments one by one"() {
-        const add3 = (a: number, b: number, c: number) => a + b + c
-        expect(curry(add3)(1)(2)(3), is, 6)
-    },
+        "can be given its arguments one by one"() {
+            const result = curriedAdd(1)(2)
+            expect(result, is, 3)
+        },
+    })
+}
 
-    "can be passed three arguments as (a)(b, c)"() {
-        const add3 = (a: number, b: number, c: number) => a + b + c
-        const result: number = curry(add3)(1)(2, 3)
-        expect(result, is, 6)
-    },
+{
+    const curriedAdd3 = curry((a: number, b: number, c: number) => a + b + c)
 
-    "can be passed three arguments as (a, b)(c)"() {
-        const add3 = (a: number, b: number, c: number) => a + b + c
-        const result: number = curry(add3)(1, 2)(3)
-        expect(result, is, 6)
-    },
-})
+    test("a curried ternary add() function", {
+        "can be given all 3 arguments at once"() {
+            expect(curriedAdd3(1, 2, 3), is, 6)
+        },
+
+        "can be given its arguments one by one"() {
+            expect(curriedAdd3(1)(2)(3), is, 6)
+        },
+
+        "can be given its arguments as (a)(b, c)"() {
+            expect(curriedAdd3(1)(2, 3), is, 6)
+        },
+
+        "can be given its arguments as (a, b)(c)"() {
+            expect(curriedAdd3(1, 2)(3), is, 6)
+        },
+    })
+}
 
 function curry(f: (...args: any[]) => any) {
     return function curried(...args: any[]) {

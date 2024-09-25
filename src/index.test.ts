@@ -45,6 +45,27 @@ function sum(numbers: number[]): number {
             const result = curriedAdd(1)(2)
             expect(result, is, 3)
         },
+
+        "has the correct return type"() {
+            curriedAdd(1, 2) satisfies number
+            curriedAdd(1)(2) satisfies number
+
+            // @ts-expect-error
+            curriedAdd(1, 2) satisfies string
+            // @ts-expect-error
+            curriedAdd(1)(2) satisfies string
+        },
+
+        "has the correct argument types"() {
+            // @ts-expect-error
+            curriedAdd("a", 2)
+            // @ts-expect-error
+            curriedAdd(1, "b")
+            // @ts-expect-error
+            curriedAdd("a")
+            // @ts-expect-error
+            curriedAdd(1)("b")
+        },
     })
 }
 
@@ -67,9 +88,68 @@ function sum(numbers: number[]): number {
         "can be given its arguments as (a, b)(c)"() {
             expect(curriedAdd3(1, 2)(3), is, 6)
         },
+
+        "has the correct return type"() {
+            curriedAdd3(1, 2, 3) satisfies number
+            curriedAdd3(1, 2)(3) satisfies number
+            curriedAdd3(1)(2, 3) satisfies number
+            curriedAdd3(1)(2)(3) satisfies number
+
+            // @ts-expect-error
+            curriedAdd3(1, 2, 3) satisfies string
+            // @ts-expect-error
+            curriedAdd3(1, 2)(3) satisfies string
+            // @ts-expect-error
+            curriedAdd3(1)(2, 3) satisfies string
+            // @ts-expect-error
+            curriedAdd3(1)(2)(3) satisfies string
+        },
+
+        "has the correct argument types"() {
+            // @ts-expect-error
+            curriedAdd3("a", 2, 3)
+            // @ts-expect-error
+            curriedAdd3(1, "b", 3)
+            // @ts-expect-error
+            curriedAdd3(1, 2, "c")
+
+            // @ts-expect-error
+            curriedAdd3("a", 2)
+            // @ts-expect-error
+            curriedAdd3(1, "b")
+            // @ts-expect-error
+            curriedAdd3(1, 2)("c")
+
+            // @ts-expect-error
+            curriedAdd3("a")
+            // @ts-expect-error
+            curriedAdd3(1)("b", 3)
+            // @ts-expect-error
+            curriedAdd3(1)(2, "c")
+
+            // @ts-expect-error
+            curriedAdd3("a")(2)(3)
+            // @ts-expect-error
+            curriedAdd3(1)("b")(3)
+            // @ts-expect-error
+            curriedAdd3(1)(2)("c")
+        },
     })
 }
 
+type Curried2<A, B, C> = (
+    & ((a: A, b: B) => C)
+    & ((a: A) => (b: B) => C)
+)
+
+type Curried3<A, B, C, D> = (
+    & ((a: A, b: B, c: C) => D)
+    & ((a: A, b: B) => (c: C) => D)
+    & ((a: A) => Curried2<B, C, D>)
+)
+
+function curry<A, B, C>(f: (a: A, b: B) => C): Curried2<A, B, C>
+function curry<A, B, C, D>(f: (a: A, b: B, c: C) => D): Curried3<A, B, C, D>
 function curry(f: (...args: any[]) => any) {
     return function curried(...args: any[]) {
         if (args.length < f.length) {

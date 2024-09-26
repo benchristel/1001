@@ -46,6 +46,11 @@ function sum(numbers: number[]): number {
             expect(result, is, 3)
         },
 
+        "can be called with zero arguments"() {
+            const result = curriedAdd()()(1)()()(2)
+            expect(result, is, 3)
+        },
+
         "has the correct return type"() {
             curriedAdd(1, 2) satisfies number
             curriedAdd(1)(2) satisfies number
@@ -87,6 +92,11 @@ function sum(numbers: number[]): number {
 
         "can be given its arguments as (a, b)(c)"() {
             expect(curriedAdd3(1, 2)(3), is, 6)
+        },
+
+        "can be called with zero arguments"() {
+            const result = curriedAdd3()()(1)()()(2)()()(3)
+            expect(result, is, 6)
         },
 
         "has the correct return type"() {
@@ -137,15 +147,22 @@ function sum(numbers: number[]): number {
     })
 }
 
-type Curried2<A, B, C> = (
-    & ((a: A, b: B) => C)
-    & ((a: A) => (b: B) => C)
+type Curried1<A, Ret> = (
+    & ((a: A) => Ret)
+    & (() => Curried1<A, Ret>)
+)
+
+type Curried2<A, B, Ret> = (
+    & ((a: A, b: B) => Ret)
+    & ((a: A) => Curried1<B, Ret>)
+    & (() => Curried2<A, B, Ret>)
 )
 
 type Curried3<A, B, C, D> = (
     & ((a: A, b: B, c: C) => D)
-    & ((a: A, b: B) => (c: C) => D)
+    & ((a: A, b: B) => Curried1<C, D>)
     & ((a: A) => Curried2<B, C, D>)
+    & (() => Curried3<A, B, C, D>)
 )
 
 function curry<A, B, C>(f: (a: A, b: B) => C): Curried2<A, B, C>

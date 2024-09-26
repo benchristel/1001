@@ -5,11 +5,16 @@ test("add()", {
         const result = add(1, 2)
         expect(result, is, 3)
     },
+
+    "is curried"() {
+        const result = add(1)(2)
+        expect(result, is, 3)
+    },
 })
 
-function add(a: number, b: number): number {
+const add = curry(function (a: number, b: number): number {
     return a + b
-}
+})
 
 test("sum()", {
     "adds up an array of numbers"() {

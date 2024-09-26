@@ -33,6 +33,36 @@ function sum(numbers: number[]): number {
 }
 
 {
+    const curriedIncrement = curry((x: number) => x + 1)
+
+    test("a curried increment() function", {
+        "can be called with its argument"() {
+            const result = curriedIncrement(1)
+            expect(result, is, 2)
+        },
+
+        "can be called with no arguments"() {
+            const result = curriedIncrement()()(1)
+            expect(result, is, 2)
+        },
+
+        "has the correct return type"() {
+            curriedIncrement(1) satisfies number
+
+            // @ts-expect-error
+            curriedIncrement(1) satisfies string
+        },
+
+        "has the correct argument types"() {
+            // @ts-expect-error
+            curriedIncrement("a")
+            // @ts-expect-error
+            curriedIncrement()("a")
+        },
+    })
+}
+
+{
     const curriedAdd = curry((a: number, b: number) => a + b)
 
     test("a curried add() function", {
@@ -158,15 +188,16 @@ type Curried2<A, B, Ret> = (
     & (() => Curried2<A, B, Ret>)
 )
 
-type Curried3<A, B, C, D> = (
-    & ((a: A, b: B, c: C) => D)
-    & ((a: A, b: B) => Curried1<C, D>)
-    & ((a: A) => Curried2<B, C, D>)
-    & (() => Curried3<A, B, C, D>)
+type Curried3<A, B, C, Ret> = (
+    & ((a: A, b: B, c: C) => Ret)
+    & ((a: A, b: B) => Curried1<C, Ret>)
+    & ((a: A) => Curried2<B, C, Ret>)
+    & (() => Curried3<A, B, C, Ret>)
 )
 
-function curry<A, B, C>(f: (a: A, b: B) => C): Curried2<A, B, C>
-function curry<A, B, C, D>(f: (a: A, b: B, c: C) => D): Curried3<A, B, C, D>
+function curry<A, Ret>(f: (a: A) => Ret): Curried1<A, Ret>
+function curry<A, B, Ret>(f: (a: A, b: B) => Ret): Curried2<A, B, Ret>
+function curry<A, B, C, Ret>(f: (a: A, b: B, c: C) => Ret): Curried3<A, B, C, Ret>
 function curry(f: (...args: any[]) => any) {
     return function curried(...args: any[]) {
         if (args.length < f.length) {

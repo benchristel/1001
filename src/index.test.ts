@@ -212,3 +212,90 @@ function curry(f: (...args: any[]) => any) {
         }
     }
 }
+
+const isArray = Array.isArray
+
+test("isArray()", {
+    "is true for an array"() {
+        expect(isArray([]), is, true)
+    },
+
+    "is false for a string"() {
+        expect(isArray(""), is, false)
+    },
+
+    "is false for an object"() {
+        expect(isArray({}), is, false)
+    },
+
+    "is false for `arguments`"() {
+        expect(isArray(arguments), is, false)
+    },
+
+    "is false for a typed array"() {
+        expect(isArray(new Uint8Array()), is, false)
+    },
+
+    "is false for null"() {
+        expect(isArray(null), is, false)
+    },
+
+    "narrows types"() {
+        let x: unknown = []
+        // @ts-expect-error
+        x[0]
+        if (isArray(x)) {
+            // no type error here
+            x[0]
+        }
+    },
+})
+
+type UnknownObject = Record<keyof any, unknown>
+
+function isPlainObject(x: unknown): x is UnknownObject {
+    if (x == null) return false
+    const prototype = Object.getPrototypeOf(x)
+    return prototype === null || prototype === Object.prototype
+}
+
+test("isPlainObject()", {
+    "is false for an array"() {
+        expect(isPlainObject([]), is, false)
+    },
+
+    "is true for an object created via a literal"() {
+        expect(isPlainObject({}), is, true)
+    },
+
+    "is true for an object with null prototype"() {
+        const object = Object.create(null)
+        expect(isPlainObject(object), is, true)
+    },
+
+    "is false for a class instance"() {
+        const object = new(class {})()
+        expect(isPlainObject(object), is, false)
+    },
+
+    "is false for null"() {
+        expect(isPlainObject(null), is, false)
+    },
+
+    "is false for undefined"() {
+        expect(isPlainObject(undefined), is, false)
+    },
+
+    "is false for a boolean"() {
+        expect(isPlainObject(true), is, false)
+    },
+
+    "narrows types"() {
+        let x: unknown = {}
+        // @ts-expect-error
+        "foo" in x
+        if (isPlainObject(x)) {
+            "foo" in x
+        }
+    },
+})

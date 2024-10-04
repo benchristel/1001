@@ -94,16 +94,18 @@ I have several reasons for working on this particular project.
 - is (===)
 - isCloseTo (compares floats - use Math.fround?)
 - exists (checks for nullishness)
-- plus
-- sum
 - times
 - product
 - mod
 - isEven
 - isOdd
-- isPOJO
 - inverse (1/x)
 - minus (unary)
+- isFinite
+- isInfinite
+- isNaN
+- isInteger
+- isFractional
 - keys
 - values
 - entries

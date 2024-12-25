@@ -17,4 +17,10 @@ test("indicesOf", {
     "finds overlapping occurrences of `needle`"() {
         expect([...indicesOf("aaa", "aaaa")], equals, [0, 1])
     },
+
+    "finds non-overlapping occurrences"() {
+        const needle = "cal"
+        const haystack = "Electrical calculator"
+        expect([...indicesOf(needle, haystack)], equals, [7, 11])
+    },
 })

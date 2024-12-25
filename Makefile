@@ -28,7 +28,7 @@ typecheck:
 st:
 	@$(LINT) --fix > /dev/null
 	@git add src > /dev/null
-	@git diff --cached
+	@GIT_PAGER= git diff --cached
 	@$(TEST) > /dev/null && echo 'test: PASS' || echo 'test: FAIL'
 	@$(LINT) > /dev/null && echo 'lint: PASS' || echo 'lint: FAIL'
 	@$(TYPE) > /dev/null && echo 'type: PASS' || echo 'type: FAIL'

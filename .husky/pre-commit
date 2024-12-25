@@ -1,1 +1,1 @@
-./run verify
+make verify

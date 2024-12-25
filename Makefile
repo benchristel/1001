@@ -1,0 +1,34 @@
+.DEFAULT_GOAL = verify
+TEST = bun devtools/test.ts
+LINT = bun run eslint src
+TYPE = bun run tsc --noEmit
+
+.PHONY: deps fix lint test ts typecheck verify
+
+verify: test typecheck lint
+
+deps:
+	npm install
+
+fix:
+	@$(LINT) --fix
+
+lint:
+	@$(LINT)
+
+test:
+	@$(TEST)
+
+ts:
+	@$(TYPE) --watch
+
+typecheck:
+	@$(TYPE)
+
+st:
+	@$(LINT) --fix > /dev/null
+	@git add src > /dev/null
+	@git diff --cached
+	@$(TEST) > /dev/null && echo 'test: PASS' || echo 'test: FAIL'
+	@$(LINT) > /dev/null && echo 'lint: PASS' || echo 'lint: FAIL'
+	@$(TYPE) > /dev/null && echo 'type: PASS' || echo 'type: FAIL'

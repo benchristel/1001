@@ -13,4 +13,8 @@ test("indicesOf", {
     "returns an empty array if `needle` is not in `haystack`"() {
         expect([...indicesOf("a", "")], equals, [])
     },
+
+    "finds overlapping occurrences of `needle`"() {
+        expect([...indicesOf("aaa", "aaaa")], equals, [0, 1])
+    },
 })

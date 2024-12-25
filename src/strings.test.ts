@@ -9,4 +9,12 @@ test("indicesOf", {
         const result = [...indicesOf(needle, haystack)]
         expect(result, equals, expected)
     },
+
+    "finds an empty string at each position"() {
+        const needle = ""
+        const haystack = "123"
+        const expected: number[] = [0, 1, 2, 3]
+        const result = [...indicesOf(needle, haystack)]
+        expect(result, equals, expected)
+    },
 })

@@ -9,4 +9,8 @@ test("indicesOf", {
     "finds an empty string at each position"() {
         expect([...indicesOf("", "123")], equals, [0, 1, 2, 3])
     },
+
+    "returns an empty array if `needle` is not in `haystack`"() {
+        expect([...indicesOf("a", "")], equals, [])
+    },
 })

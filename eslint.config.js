@@ -80,7 +80,7 @@ const styleRules = {
     "@stylistic/quotes": ["error", "double", {avoidEscape: true, allowTemplateLiterals: true}],
     "@stylistic/rest-spread-spacing": "error",
     "@stylistic/semi": ["error", "never"],
-    "@stylistic/semi-spacing": ["error", {before: false, after: false}],
+    "@stylistic/semi-spacing": ["error", {before: false, after: true}],
     "@stylistic/semi-style": ["error", "first"],
     "@stylistic/space-before-blocks": "error",
     "@stylistic/space-before-function-paren": ["error", {anonymous: "always", named: "never", asyncArrow: "always"}],

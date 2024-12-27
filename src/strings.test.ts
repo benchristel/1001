@@ -23,6 +23,10 @@ test("indicesOf", {
         const haystack = "Electrical calculator"
         expect([...indicesOf(needle, haystack)], equals, [7, 11])
     },
+
+    "finds multi-bytepair UTF-16 characters"() {
+        expect([...indicesOf("🥬", "🥬🥬🥬")], equals, [0, 2, 4])
+    },
 })
 
 test("nonOverlappingIndicesOf()", {
@@ -56,5 +60,9 @@ test("nonOverlappingIndicesOf()", {
         const needle = "abc"
         const haystack = "-abc-abc-"
         expect([...nonOverlappingIndicesOf(needle, haystack)], equals, [1, 5])
+    },
+
+    "finds multi-bytepair UTF-16 characters"() {
+        expect([...nonOverlappingIndicesOf("🥬", "🥬🥬🥬")], equals, [0, 2, 4])
     },
 })

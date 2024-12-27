@@ -32,7 +32,7 @@ Above all, I hope this book shows you what a joyful experience programming can b
 
 ## Development
 
-Dependencies: node 20.9.0, bun 0.6.12, npm 10.1.0
+Dependencies: node 20.9.0, bun 1.1.42, npm 10.1.0
 
 ```sh
 make deps    # one-time setup; installs dependencies and configures git hooks

@@ -1,40 +1,40 @@
-import {test, expect, is} from "@benchristel/taste"
+import {test, expect, not} from "@benchristel/taste"
 import {isPlainObject} from "./objects.js"
 
 test("isPlainObject()", {
     "is false for an array"() {
-        expect(isPlainObject([]), is, false)
+        expect([], not(isPlainObject))
     },
 
     "is true for an object created via a literal"() {
-        expect(isPlainObject({}), is, true)
+        expect({}, isPlainObject)
     },
 
     "is true for an object with null prototype"() {
         const object = Object.create(null)
-        expect(isPlainObject(object), is, true)
+        expect(object, isPlainObject)
     },
 
     "is false for a class instance"() {
         const object = new(class {})()
-        expect(isPlainObject(object), is, false)
+        expect(object, not(isPlainObject))
     },
 
     "is false for null"() {
-        expect(isPlainObject(null), is, false)
+        expect(null, not(isPlainObject))
     },
 
     "is false for undefined"() {
-        expect(isPlainObject(undefined), is, false)
+        expect(undefined, not(isPlainObject))
     },
 
     "is false for a boolean"() {
-        expect(isPlainObject(true), is, false)
+        expect(true, not(isPlainObject))
     },
 
     "is true for a plain object with its own constructor property"() {
         const object = {constructor: "bork"}
-        expect(isPlainObject(object), is, true)
+        expect(object, isPlainObject)
     },
 
     "narrows types"() {

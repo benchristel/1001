@@ -1,3 +1,6 @@
+/**
+ * Pipes the given `value` through zero or more functions.
+ */
 export function _<A>(value: A): A
 export function _<A, Ret>(value: A, f1: (a: A) => Ret): Ret
 export function _<A, B, Ret>(value: A, f1: (a: A) => B, f2: (b: B) => Ret): Ret

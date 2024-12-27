@@ -1,5 +1,6 @@
 import {test, expect, is} from "@benchristel/taste"
 import {curry} from "./curry.js"
+import {UnknownObject} from "./typescript.js"
 
 test("add()", {
     "adds two numbers"() {
@@ -75,8 +76,6 @@ test("isArray()", {
         }
     },
 })
-
-type UnknownObject = Record<keyof any, unknown>
 
 function isPlainObject(x: unknown): x is UnknownObject {
     if (x == null) return false

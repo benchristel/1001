@@ -1,5 +1,6 @@
 import {test, expect, is, not} from "@benchristel/taste"
 import {isPlainObject, prop} from "./objects.js"
+import {_} from "./composition.js"
 
 test("isPlainObject()", {
     "is false for an array"() {
@@ -86,5 +87,14 @@ test("prop", {
         const object = {foo: 42}
         // @ts-expect-error
         prop("bar")(object)
+    },
+
+    "works with pipelines"() {
+        const object = {bar: 7}
+        expect(_(object, prop("bar")), is, 7)
+        _(object, prop("bar")) satisfies number
+
+        // @ts-expect-error
+        _(object, prop("bar")) satisfies string
     },
 })

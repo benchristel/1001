@@ -1,5 +1,5 @@
-import {test, expect, not} from "@benchristel/taste"
-import {isPlainObject} from "./objects.js"
+import {test, expect, is, not} from "@benchristel/taste"
+import {isPlainObject, prop} from "./objects.js"
 
 test("isPlainObject()", {
     "is false for an array"() {
@@ -55,5 +55,36 @@ test("isPlainObject()", {
             // @ts-expect-error
             x.foo satisfies string
         }
+    },
+})
+
+test("prop", {
+    "retrieves a property from an object"() {
+        const object = {foo: 42}
+        expect(prop("foo")(object), is, 42)
+    },
+
+    "retrieves the length of an array"() {
+        const array: never[] = []
+        expect(prop("length")(array), is, 0)
+    },
+
+    "retrieves the length of a string"() {
+        const string = "abc"
+        expect(prop("length")(string), is, 3)
+    },
+
+    "returns a correctly-typed value"() {
+        const object = {foo: 42}
+        prop("foo")(object) satisfies number
+
+        // @ts-expect-error
+        prop("foo")(object) satisfies string
+    },
+
+    "forbids unsound access"() {
+        const object = {foo: 42}
+        // @ts-expect-error
+        prop("bar")(object)
     },
 })

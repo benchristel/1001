@@ -1,4 +1,4 @@
-import type {UnknownObject} from "./typescript.js"
+import type {PlainObject} from "./typescript.js"
 
 /**
  * isPlainObject checks if its argument is a "plain object", i.e. something
@@ -6,7 +6,7 @@ import type {UnknownObject} from "./typescript.js"
  *
  * @returns true if the argument is a plain object, false otherwise.
  */
-export function isPlainObject(x: unknown): x is UnknownObject {
+export function isPlainObject(x: unknown): x is PlainObject {
     if (x == null) return false
     const prototype = Object.getPrototypeOf(x)
     return prototype === null || prototype === Object.prototype

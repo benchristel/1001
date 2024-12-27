@@ -1,27 +1,27 @@
-import type {UnknownObject} from "./typescript.js"
+import type {PlainObject} from "./typescript.js"
 
-// `UnknownObject`s can have any keys.
-;({foo: "bar", baz: 1}) satisfies UnknownObject
-;({1: 2}) satisfies UnknownObject
-;({}) satisfies UnknownObject
+// `PlainObject`s can have any keys.
+;({foo: "bar", baz: 1}) satisfies PlainObject
+;({1: 2}) satisfies PlainObject
+;({}) satisfies PlainObject
 
-// `null` is not an `UnknownObject`.
+// `null` is not a `PlainObject`.
 // @ts-expect-error
-null satisfies UnknownObject
+null satisfies PlainObject
 
-// Arrays are not `UnknownObject`s.
+// Arrays are not `PlainObject`s.
 // @ts-expect-error
-;[] satisfies UnknownObject
+;[] satisfies PlainObject
 
-// Strings are not `UnknownObject`s.
+// Strings are not `PlainObject`s.
 // @ts-expect-error
-"" satisfies UnknownObject
+"" satisfies PlainObject
 
-// RegExps are not `UnknownObject`s.
+// RegExps are not `PlainObject`s.
 // @ts-expect-error
-;/a/ satisfies UnknownObject
+;/a/ satisfies PlainObject
 
-// Class instances are not `UnknownObject`s.
+// Class instances are not `PlainObject`s.
 class Dummy {}
 // @ts-expect-error
-new Dummy() satisfies UnknownObject
+new Dummy() satisfies PlainObject

@@ -1,5 +1,5 @@
 /**
- * `UnknownObject` represents a "plain object" (not an Array, null, or class
- * instance) with any keys.
+ * `PlainObject` represents a "plain old JavaScript object" (not an Array,
+ * null, or class instance). A PlainObject may have any keys.
  */
-export type UnknownObject = Record<keyof any, unknown>
+export type PlainObject = Record<keyof any, unknown>

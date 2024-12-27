@@ -1,5 +1,7 @@
 /**
- * Pipes the given `value` through zero or more functions.
+ * Pipes the given `value` through zero to five functions.
+ *
+ * @see startWith for longer pipelines.
  */
 export function _<Ret>(
     value: Ret): Ret
@@ -30,4 +32,16 @@ export function _<A, B, C, D, E, Ret>(
     f5: (e: E) => Ret): Ret
 export function _(value: any, ...functions: any[]) {
     return functions.reduce((curr, f) => f(curr), value)
+}
+
+export function startWith<T>(value: T): Pipeline<T> {
+    return new Pipeline(value)
+}
+
+class Pipeline<T> {
+    constructor(public value: T) {}
+
+    and<U>(f: (arg: T) => U): Pipeline<U> {
+        return new Pipeline(f(this.value))
+    }
 }

@@ -1,5 +1,5 @@
-import {test, expect, is} from "@benchristel/taste"
-import {isArray} from "./arrays.js"
+import {test, expect, is, equals} from "@benchristel/taste"
+import {isArray, map} from "./arrays.js"
 
 test("isArray()", {
     "is true for an array"() {
@@ -34,5 +34,16 @@ test("isArray()", {
             // no type error here
             x[0]
         }
+    },
+})
+
+test("map", {
+    "transforms each array element"() {
+        const increment = (x: number) => x + 1
+        expect(map(increment)([0, 1, 2]), equals, [1, 2, 3])
+    },
+
+    "does not pass the array index to the callback"() {
+        expect(map(parseInt)(["10", "10", "10"]), equals, [10, 10, 10])
     },
 })

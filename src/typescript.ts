@@ -13,3 +13,14 @@ export type ObjectKey = keyof any
  * null, or class instance). A PlainObject may have any keys.
  */
 export type PlainObject = Record<ObjectKey, unknown>
+
+/**
+ * `AnyFunction` represents a function. It is intended for use in `extends`
+ * clauses of type parameters.
+ */
+export type AnyFunction = (...args: any[]) => any
+
+export type FirstParam<F extends AnyFunction> =
+    Parameters<F> extends [any]
+        ? Parameters<F>[0]
+        : never

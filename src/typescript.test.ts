@@ -1,4 +1,9 @@
-import type {PlainObject} from "./typescript.js"
+import {summon} from "./testing.js"
+import type {PlainObject, FirstParam} from "./typescript.js"
+
+/*
+ * PlainObject type tests
+ */
 
 // `PlainObject`s can have any keys.
 ;({foo: "bar", baz: 1}) satisfies PlainObject
@@ -25,3 +30,13 @@ null satisfies PlainObject
 class Dummy {}
 // @ts-expect-error
 new Dummy() satisfies PlainObject
+
+/*
+ * FirstParam type tests
+ */
+
+summon<FirstParam<(x: number) => string>>() satisfies number
+summon<FirstParam<() => string>>() satisfies never
+
+// @ts-expect-error
+summon<FirstParam<(x: number) => string>>() satisfies string

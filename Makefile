@@ -27,7 +27,7 @@ typecheck:
 
 build:
 	@rm -rf dist
-	@bun run tsc
+	@bun run tsc --project tsconfig.build.json
 
 release: verify build
 	@node_modules/.bin/bumpp --no-push --commit "Release v"

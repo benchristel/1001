@@ -29,7 +29,7 @@ build:
 	@rm -rf dist
 	@bun run tsc
 
-release: build
+release: verify build
 	@node_modules/.bin/bumpp --no-push
 
 publish:

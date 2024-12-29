@@ -19,8 +19,3 @@ export type PlainObject = Record<ObjectKey, unknown>
  * clauses of type parameters.
  */
 export type AnyFunction = (...args: any[]) => any
-
-export type FirstParam<F extends AnyFunction> =
-    Parameters<F> extends [any]
-        ? Parameters<F>[0]
-        : never

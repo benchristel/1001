@@ -1,5 +1,3 @@
-import type {FirstParam} from "./typescript.js"
-
 export const isArray = Array.isArray
 
 export function map<T, U>(f: (elem: T) => U) {
@@ -8,12 +6,12 @@ export function map<T, U>(f: (elem: T) => U) {
     }
 }
 
-export function filter<Narrowed, P extends (x: any) => x is Narrowed>(
-    predicate: P
-): (array: FirstParam<P>[]) => Narrowed[]
-export function filter<P extends (x: any) => unknown>(
-    predicate: P,
-): (array: FirstParam<P>[]) => FirstParam<P>[]
+export function filter<Element, Narrowed extends Element>(
+    predicate: (x: Element) => x is Narrowed
+): (array: Element[]) => Narrowed[]
+export function filter<Element>(
+    predicate: (x: Element) => unknown,
+): (array: Element[]) => Element[]
 export function filter(predicate: any) {
     return (array: any) => array.filter(predicate)
 }

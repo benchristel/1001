@@ -36,6 +36,14 @@ test("isArray()", {
             x[0]
         }
     },
+
+    "uses 'unknown' as the array element type"() {
+        let x: unknown = []
+        if (isArray(x)) {
+            // @ts-expect-error - x[0] should have type unknown
+            x[0] satisfies string
+        }
+    },
 })
 
 test("map", {

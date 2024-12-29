@@ -1,4 +1,6 @@
-export * from "./arrays.js"
+export * from "./arrays/filter.js"
+export * from "./arrays/isArray.js"
+export * from "./arrays/map.js"
 export * from "./composition.js"
 export * from "./curry.js"
 export * from "./objects.js"

@@ -10,10 +10,10 @@ export function map<T, U>(f: (elem: T) => U) {
 
 export function filter<Narrowed, P extends (x: any) => x is Narrowed>(
     predicate: P
-): <E extends FirstParam<P>>(array: E[]) => Narrowed[]
+): (array: FirstParam<P>[]) => Narrowed[]
 export function filter<P extends (x: any) => unknown>(
     predicate: P,
-): <E extends FirstParam<P>>(array: E[]) => E[]
+): (array: FirstParam<P>[]) => FirstParam<P>[]
 export function filter(predicate: any) {
     return (array: any) => array.filter(predicate)
 }

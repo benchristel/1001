@@ -30,7 +30,7 @@ build:
 	@bun run tsc
 
 release: verify build
-	@node_modules/.bin/bumpp --no-push
+	@node_modules/.bin/bumpp --no-push --commit "Release v"
 
 publish:
 	@npm publish && git push --tags

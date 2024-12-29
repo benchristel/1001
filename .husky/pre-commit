@@ -1,1 +1,1 @@
-make verify
+make lint

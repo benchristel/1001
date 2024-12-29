@@ -3,7 +3,7 @@ TEST = bun devtools/test.ts
 LINT = bun run eslint src
 TYPE = bun run tsc --noEmit
 
-.PHONY: deps fix lint test ts typecheck verify
+.PHONY: deps fix lint test ts typecheck verify build release st
 
 verify: test typecheck lint
 
@@ -24,6 +24,13 @@ ts:
 
 typecheck:
 	@$(TYPE)
+
+build:
+	@rm -rf dist
+	@bun run tsc
+
+release:
+	@npm run bumpp --no-push
 
 st:
 	@$(LINT) --fix > /dev/null

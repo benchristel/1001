@@ -1,5 +1,6 @@
 {
   "include": ["src"],
+  "exclude": ["src/**/*.test.*"],
   "compilerOptions": {
     "target": "es2022",
     "module": "nodenext",

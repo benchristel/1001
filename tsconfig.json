@@ -4,6 +4,7 @@
     "target": "es2022",
     "module": "nodenext",
     "outDir": "./dist",
+    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

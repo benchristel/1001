@@ -3,7 +3,7 @@ TEST = bun devtools/test.ts
 LINT = bun run eslint src
 TYPE = bun run tsc --noEmit
 
-.PHONY: deps fix lint test ts typecheck verify build release st
+.PHONY: deps fix lint test ts typecheck verify build release publish st
 
 verify: test typecheck lint
 
@@ -30,7 +30,10 @@ build:
 	@bun run tsc
 
 release:
-	@npm run bumpp --no-push
+	@node_modules/.bin/bumpp --no-push
+
+publish:
+	@npm publish && git push --tags
 
 st:
 	@$(LINT) --fix > /dev/null

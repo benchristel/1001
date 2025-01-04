@@ -1,3 +1,4 @@
+export * from "./arrays/at.js"
 export * from "./arrays/filter.js"
 export * from "./arrays/isArray.js"
 export * from "./arrays/map.js"

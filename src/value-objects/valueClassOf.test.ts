@@ -28,5 +28,7 @@ test("valueClassOf", {
         bob.age satisfies number
         // @ts-expect-error - bob.age should be a number
         bob.age satisfies string
+
+        expect(JSON.stringify(bob), is, `{"name":"Bob","age":21}`)
     },
 })

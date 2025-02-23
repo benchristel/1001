@@ -25,3 +25,8 @@ export type AnyFunction = (...args: any[]) => any
  * clauses of type parameters.
  */
 export type AnyConstructor = new (...args: any[]) => {}
+
+/**
+ * A `Consumer<T>` is a function that takes value of type T.
+ */
+export type Consumer<T> = (value: T) => unknown

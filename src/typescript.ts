@@ -21,8 +21,8 @@ export type PlainObject = Record<ObjectKey, unknown>
 export type AnyFunction = (...args: any[]) => any
 
 /**
- * `AnyFunction` represents a constructor. It is intended for use in `extends`
- * clauses of type parameters.
+ * `AnyConstructor` represents a constructor. It is intended for use in
+ * `extends` clauses of type parameters.
  */
 export type AnyConstructor = new (...args: any[]) => {}
 

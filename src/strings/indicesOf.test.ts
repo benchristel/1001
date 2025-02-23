@@ -27,4 +27,17 @@ test("indicesOf", {
     "finds multi-bytepair UTF-16 characters"() {
         expect([...indicesOf("🥬", "🥬🥬🥬")], equals, [0, 2, 4])
     },
+
+    "is curried"() {
+        expect([...indicesOf("1")("321")], equals, [2])
+    },
+
+    "is lazy"() {
+        const foundIndices = []
+        for (const index of indicesOf("a", "aaa")) {
+            foundIndices.push(index)
+            break
+        }
+        expect(foundIndices, equals, [0])
+    },
 })

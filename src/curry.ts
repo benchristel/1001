@@ -1,15 +1,15 @@
-type Curried1<A, Ret> = (
+export type Curried1<A, Ret> = (
     & ((a: A) => Ret)
     & (() => Curried1<A, Ret>)
 )
 
-type Curried2<A, B, Ret> = (
+export type Curried2<A, B, Ret> = (
     & ((a: A, b: B) => Ret)
     & ((a: A) => Curried1<B, Ret>)
     & (() => Curried2<A, B, Ret>)
 )
 
-type Curried3<A, B, C, Ret> = (
+export type Curried3<A, B, C, Ret> = (
     & ((a: A, b: B, c: C) => Ret)
     & ((a: A, b: B) => Curried1<C, Ret>)
     & ((a: A) => Curried2<B, C, Ret>)

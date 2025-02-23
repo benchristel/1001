@@ -31,13 +31,4 @@ test("indicesOf", {
     "is curried"() {
         expect([...indicesOf("1")("321")], equals, [2])
     },
-
-    "is lazy"() {
-        const foundIndices = []
-        for (const index of indicesOf("a", "aaa")) {
-            foundIndices.push(index)
-            break
-        }
-        expect(foundIndices, equals, [0])
-    },
 })

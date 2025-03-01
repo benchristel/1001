@@ -3,8 +3,7 @@
 import stylistic from "@stylistic/eslint-plugin"
 // @ts-expect-error - can't find type declarations for "@typescript-eslint/parser"
 import parserTs from "@typescript-eslint/parser"
-const includes = ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs"]
-const ignores = ["dist/**/*"]
+const files = ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs"]
 const indent = 4
 const styleRules = {
     "@stylistic/array-bracket-newline": ["error", "consistent"],
@@ -101,8 +100,7 @@ const styleRules = {
 export default [
     {
         rules: styleRules,
-        ignores,
-        files: includes,
+        files,
         languageOptions: {parser: parserTs},
         plugins: {
             "@stylistic": stylistic,

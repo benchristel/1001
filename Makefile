@@ -1,6 +1,6 @@
 .DEFAULT_GOAL = verify
 TEST = bun dev/scripts/test.ts
-LINT = bun run eslint --config dev/config/eslint.config.js src
+LINT = bun run eslint src --config dev/config/eslint.config.js
 TYPE = bun run tsc --noEmit --project dev/config/tsconfig.json
 
 .PHONY: deps fix lint test ts typecheck verify build release publish st

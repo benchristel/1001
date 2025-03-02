@@ -1,5 +1,5 @@
 .DEFAULT_GOAL = verify
-TEST = bun devtools/test.ts
+TEST = bun dev/scripts/test.ts
 LINT = bun run eslint src
 TYPE = bun run tsc --noEmit
 

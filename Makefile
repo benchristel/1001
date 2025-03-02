@@ -1,6 +1,6 @@
 .DEFAULT_GOAL = verify
 TEST = bun dev/scripts/test.ts
-LINT = bun run eslint src --config dev/config/eslint.config.js
+LINT = bun run eslint src test --config dev/config/eslint.config.js
 TYPE = bun run tsc --noEmit --project dev/config/tsconfig.json
 
 .PHONY: deps fix lint test ts typecheck verify build release publish st
@@ -37,7 +37,7 @@ publish:
 
 st:
 	@$(LINT) --fix > /dev/null
-	@git add src > /dev/null
+	@git add src test > /dev/null
 	@GIT_PAGER= git diff --cached
 	@$(TEST) > /dev/null && echo 'test: PASS' || echo 'test: FAIL'
 	@$(LINT) > /dev/null && echo 'lint: PASS' || echo 'lint: FAIL'

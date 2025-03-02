@@ -1,6 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
-import {_} from "../composition.js"
-import {at} from "./at.js"
+import {_, at} from "../src/index.js"
 
 test("at()", {
     "returns the array element at the specified index"() {

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL = verify
 TEST = bun dev/scripts/test.ts
 LINT = bun run eslint --config dev/config/eslint.config.js src
-TYPE = bun run tsc --noEmit
+TYPE = bun run tsc --noEmit --project dev/config/tsconfig.json
 
 .PHONY: deps fix lint test ts typecheck verify build release publish st
 
@@ -27,7 +27,7 @@ typecheck:
 
 build:
 	@rm -rf dist
-	@bun run tsc --project tsconfig.build.json
+	@bun run tsc --project dev/config/tsconfig.build.json
 
 release: verify build
 	@node_modules/.bin/bumpp --no-push --commit "Release v"

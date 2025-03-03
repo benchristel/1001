@@ -2,10 +2,11 @@
 TEST = bun dev/scripts/test.ts
 LINT = bun run eslint src test --config dev/config/eslint.config.js
 TYPE = bun run tsc --noEmit --project dev/config/tsconfig.json
+TYPETEST = bun run tsd
 
 .PHONY: deps fix lint test ts typecheck verify build release publish st
 
-verify: test typecheck lint
+verify: test typecheck lint typetest
 
 deps:
 	npm install
@@ -24,6 +25,9 @@ ts:
 
 typecheck:
 	@$(TYPE)
+
+typetest: build
+	@$(TYPETEST)
 
 build:
 	@rm -rf dist

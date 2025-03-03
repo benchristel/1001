@@ -1,29 +1,29 @@
 type ArrayIndexer = <T>(array: T[]) => T | undefined
 
-type Indexer0 = (
-    & (<Tuple extends [any, ...any[]]>(tuple: Tuple) => Tuple[0])
-    & ArrayIndexer
-)
+type Indexer0 = <A extends readonly any[]>(array: A) =>
+A extends readonly [any, ...any[]]
+    ? A[0]
+    : A[number] | undefined
 
-type Indexer1 = (
-    & (<Tuple extends [any, any, ...any[]]>(tuple: Tuple) => Tuple[1])
-    & ArrayIndexer
-)
+type Indexer1 = <A extends readonly any[]>(array: A) =>
+A extends readonly [any, any, ...any[]]
+    ? A[1]
+    : A[number] | undefined
 
-type Indexer2 = (
-    & (<Tuple extends [any, any, any, ...any[]]>(tuple: Tuple) => Tuple[2])
-    & ArrayIndexer
-)
+type Indexer2 = <A extends readonly any[]>(array: A) =>
+A extends readonly [any, any, any, ...any[]]
+    ? A[2]
+    : A[number] | undefined
 
-type Indexer3 = (
-    & (<Tuple extends [any, any, any, any, ...any[]]>(tuple: Tuple) => Tuple[3])
-    & ArrayIndexer
-)
+type Indexer3 = <A extends readonly any[]>(array: A) =>
+A extends readonly [any, any, any, ...any[]]
+    ? A[3]
+    : A[number] | undefined
 
-type Indexer4 = (
-    & (<Tuple extends [any, any, any, any, any, ...any[]]>(tuple: Tuple) => Tuple[4])
-    & ArrayIndexer
-)
+type Indexer4 = <A extends readonly any[]>(array: A) =>
+A extends readonly [any, any, any, any, ...any[]]
+    ? A[4]
+    : A[number] | undefined
 
 export function at(index: 0): Indexer0
 export function at(index: 1): Indexer1

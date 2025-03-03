@@ -21,7 +21,7 @@ const styleRules = {
     "@stylistic/eol-last": ["error", "always"],
     "@stylistic/function-call-argument-newline": ["error", "consistent"],
     "@stylistic/function-call-spacing": ["error", "never"],
-    "@stylistic/function-paren-newline": ["error", "multiline"],
+    "@stylistic/function-paren-newline": "off",
     "@stylistic/generator-star-spacing": ["error", "before"],
     "@stylistic/implicit-arrow-linebreak": "off",
     "@stylistic/indent": ["error", indent],

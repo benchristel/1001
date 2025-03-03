@@ -14,18 +14,18 @@ test("at()", {
     },
 
     "is typed to always return a value given a tuple and a valid index"() {
-        at(0)([1]) satisfies number
+        at(0)([1] as const) satisfies number
 
-        at(0)(["", 1]) satisfies string
-        at(1)(["", 1]) satisfies number
+        at(0)(["", 1] as const) satisfies string
+        at(1)(["", 1] as const) satisfies number
 
-        at(0)([true, "", 1]) satisfies boolean
-        at(1)([true, "", 1]) satisfies string
-        at(2)([true, "", 1]) satisfies number
+        at(0)([true, "", 1] as const) satisfies boolean
+        at(1)([true, "", 1] as const) satisfies string
+        at(2)([true, "", 1] as const) satisfies number
 
-        at(0)([null, true, "", 1]) satisfies null
-        at(1)([null, true, "", 1]) satisfies boolean
-        at(2)([null, true, "", 1]) satisfies string
-        at(3)([null, true, "", 1]) satisfies number
+        at(0)([null, true, "", 1] as const) satisfies null
+        at(1)([null, true, "", 1] as const) satisfies boolean
+        at(2)([null, true, "", 1] as const) satisfies string
+        at(3)([null, true, "", 1] as const) satisfies number
     },
 })

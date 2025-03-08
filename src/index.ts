@@ -22,3 +22,11 @@
  */
 
 export type AnyFunction = (...args: any[]) => any
+
+/** ### type `AnyClass` */
+/**
+ * Represents a class whose constructor takes any arguments. Intended for use
+ * in type parameter constraints (i.e. `extends` clauses).
+ */
+
+export type AnyClass = new (...args: any[]) => void

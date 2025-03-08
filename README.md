@@ -41,17 +41,7 @@ make ts      # run typechecker in watch mode
 make lint    # run linter
 make fix     # fix lint
 make verify  # run all checks (do this before you commit)
-make st      # display codebase status
 ```
-
-`make st` deserves a bit more explanation. It does the following:
-
-- Fixes lint
-- Adds all source files to the git cache
-- Displays the diff that would be committed if you ran `git commit`
-- Displays the pass/fail status of the various checks.
-
-The intended use is to `make st` before every commit, so you know exactly what's what.
 
 The [Husky](https://typicode.github.io/husky/) git hook framework will run `verify` automatically when you try to commit changes. To bypass this check, use `git commit -n` or `git commit --no-verify`.
 

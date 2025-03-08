@@ -17,16 +17,16 @@
 
 /** ### type `AnyFunction` */
 /**
- * Represents a function with any arguments and return type. Intended for use
- * in type parameter constraints (i.e. `extends` clauses).
+ * Represents a function, disregarding parameters and return type. Intended for
+ * use in type parameter constraints (i.e. `extends` clauses).
  */
 
 export type AnyFunction = (...args: any[]) => any
 
 /** ### type `AnyClass` */
 /**
- * Represents a class whose constructor takes any arguments. Intended for use
- * in type parameter constraints (i.e. `extends` clauses).
+ * Represents a class, disregarding constructor parameters. Intended for use in
+ * type parameter constraints (i.e. `extends` clauses).
  */
 
 export type AnyClass = new (...args: any[]) => void

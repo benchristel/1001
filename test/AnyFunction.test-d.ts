@@ -2,7 +2,8 @@ import {expectAssignable, expectNotAssignable} from "tsd"
 import type {AnyFunction} from "../src/index.js"
 
 /**
- * Functions with any number of arguments are assignable to `AnyFunction`.
+ * Functions with any number of arguments and any return type are assignable to
+ * `AnyFunction`.
  */
 
 expectAssignable<AnyFunction>(() => {})

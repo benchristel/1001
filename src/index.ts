@@ -21,7 +21,7 @@
  * use in type parameter constraints (i.e. `extends` clauses).
  */
 
-export type AnyFunction = (...args: any[]) => any
+export type AnyFunction = (...args: any[]) => void
 
 /** ### type `AnyClass` */
 /**

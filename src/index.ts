@@ -15,7 +15,7 @@
  * if you don't use anything else from this library.
  */
 
-/** ### type `AnyFunction` */
+/** ### `AnyFunction` type */
 /**
  * Represents a function, disregarding parameters and return type. Intended for
  * use in type parameter constraints (i.e. `extends` clauses).
@@ -23,7 +23,7 @@
 
 export type AnyFunction = (...args: any[]) => void
 
-/** ### type `AnyClass` */
+/** ### `AnyClass` type */
 /**
  * Represents a class, disregarding constructor parameters. Intended for use in
  * type parameter constraints (i.e. `extends` clauses).
@@ -31,7 +31,7 @@ export type AnyFunction = (...args: any[]) => void
 
 export type AnyClass = new (...args: any[]) => void
 
-/** ### type `AnyAbstractClass` */
+/** ### `AnyAbstractClass` type */
 /**
  * Represents an abstract class, disregarding constructor parameters. Intended
  * for use in type parameter constraints (i.e. `extends` clauses).
@@ -39,7 +39,7 @@ export type AnyClass = new (...args: any[]) => void
 
 export type AnyAbstractClass = abstract new (...args: any[]) => void
 
-/** ### type `Jsonable` */
+/** ### `Jsonable` type */
 /**
  * Represents data that can be losslessly converted to JSON.
  */

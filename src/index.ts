@@ -87,6 +87,21 @@ interface JsonableObject {
 }
 
 /**
+ * ## Type Predicates
+ *
+ * This section contains functions that check the type of a value at runtime.
+ */
+
+/** `isString` function */
+/**
+ * @Returns whether the given `value` is a `string`.
+ */
+
+export function isString(value: unknown): value is string {
+    return typeof value === "string"
+}
+
+/**
  * ## Currying and partial function application
  *
  * [Currying] is the process of taking a function that accepts

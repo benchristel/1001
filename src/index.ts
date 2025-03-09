@@ -2,10 +2,10 @@
  * Note to vscode users: you can navigate this file using ctrl+shift+O to jump
  * to a symbol.
  *
- * This library is written in Markdown using a vaguely ["literate"][lp] style.
+ * This library is written in Markdown using a vaguely "[literate]" style.
  * I suggest reading the entire thing from top to bottom.
  *
- * [lp]: http://www.literateprogramming.com/
+ * [literate]: http://www.literateprogramming.com/
  *
  *
  * ## Foundational Types
@@ -193,10 +193,10 @@ export type Curried5<A, B, C, D, E, RV> = (
 /**
  * Returns a curried version of the given function, which may have up to five
  * parameters. The function passed to `curry` must not be generic, and must not
- * have [default parameters][default-params] or [rest parameters][rest-params].
+ * have [default parameters] or [rest parameters].
  *
- * [default-params]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
- * [rest-params]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
+ * [default parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
+ * [rest parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
  */
 
 export function curry<RV>(F: Function0<RV>): Curried0<RV>

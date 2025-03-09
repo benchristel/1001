@@ -346,3 +346,21 @@ export function naturalNameOf(namedObject: WeakKey): string | undefined {
 
     return undefined
 }
+
+/** ### `name` function */
+/**
+ * A curried convenience wrapper around `DisplayName.get`. Sets the display
+ * name of the given function, class, or object.
+ *
+ * @example
+ * ```typescript
+ * export const eq = name("eq")(curry(_eq))
+ *
+ * function _eq(a: unknown, b: unknown): boolean {
+ *   return a === b
+ * }
+ * ```
+ */
+
+export const name = (displayName: string) =>
+    <T extends WeakKey>(object: T): T => DisplayName.set(displayName, object)

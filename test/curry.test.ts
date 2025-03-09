@@ -1,5 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
-import {curry, DisplayName} from "../src/index.js"
+import {curry, DisplayName, name} from "../src/index.js"
 
 test("curry", {
     "does nothing to a zero-argument function"() {
@@ -62,7 +62,7 @@ test("a partial application of a curried function", {
     },
 
     "retains a name given to the curried function"() {
-        const add = DisplayName.set("add", curry((a: number, b: number) => a + b))
+        const add = name("add")(curry((a: number, b: number) => a + b))
         expect(DisplayName.get(add(1)), is, "add")
     },
 })

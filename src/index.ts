@@ -59,6 +59,52 @@ interface JsonableObject {
 
 /**
  * ## Currying and partial function application
+ *
+ * [Currying] is the process of taking a function that accepts
+ * multiple arguments, and converting it to a function that accepts those
+ * arguments in a sequence of chained calls.
+ *
+ * ```typescript
+ * // Calling an uncurried function looks like this:
+ * add(1, 2, 3) // => 6
+ *
+ * // Calling a curried version of the same function looks like this:
+ * add(1)(2)(3) // => 6
+ * ```
+ *
+ * [Currying]: https://wiki.haskell.org/Currying
+ *
+ * More precisely: a curried function, when called with its first argument,
+ * returns another curried function that accepts the remaining arguments.
+ * You'll see this definition represented quite literally in the `CurriedN`
+ * types below.
+ *
+ * Currying is useful because it allows *[partial application]*;
+ * that is, supplying only some of the arguments to a function so the rest can
+ * be supplied elsewhere. This enables programming in a concise [point-free]
+ * (or "tacit") style.
+ *
+ * ```typescript
+ * const greaterThan = curry(
+ *     (threshold: number, x: number) => x > threshold,
+ * )
+ *
+ * ;[1, 2, 3, 4, 5].filter(greaterThan(3)) // => [4, 5]
+ * ```
+ *
+ * [partial application]: https://wiki.haskell.org/index.php?title=Partial_application
+ * [point-free]: https://en.wikipedia.org/wiki/Tacit_programming
+ *
+ * In this section, we provide facilities for currying functions. Due to
+ * limitations of TypeScript's type system, currying functions with an
+ * arbitrary number of parameters is not possible. Therefore, we limit the
+ * number of parameters to five. We have found that in practice, functions
+ * rarely need more than two or three parameters.
+ */
+
+/* The following unexported `FunctionN` types exist as abbreviations for
+ * function type literals. No one wants to look at all those dummy parameter
+ * names.
  */
 
 /** */

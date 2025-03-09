@@ -278,11 +278,13 @@ export function curry(f: AnyFunction): AnyFunction {
 const displayNames = new WeakMap<WeakKey, string | undefined>()
 
 export const DisplayName = {
+
     /** ### `DisplayName.get` function */
     /**
      * @Returns the display name of the given object. Defaults to the object's
      * natural name, or `undefined` if it has none.
      */
+
     get(namedObject: WeakKey): string | undefined {
         if (displayNames.has(namedObject)) {
             return displayNames.get(namedObject)
@@ -299,6 +301,7 @@ export const DisplayName = {
      *
      * @Returns the named object.
      */
+
     set<T extends WeakKey>(name: string | undefined, namedObject: T): T {
         displayNames.set(namedObject, name)
         return namedObject
@@ -312,6 +315,7 @@ export const DisplayName = {
      *
      * @Returns the inheritor of the name.
      */
+
     inheritFrom<T extends WeakKey>(original: WeakKey, inheritor: T): T {
         return DisplayName.set(DisplayName.get(original), inheritor)
     },
@@ -322,6 +326,7 @@ export const DisplayName = {
  * @Returns the given object's "natural name," if it has one. For functions and
  * classes, the natural name is given by the `name` property.
  */
+
 // TODO: I'm not sure if this should return undefined or empty string for
 // anonymous functions. I'll probably figure it out when I start implementing
 // inspect().

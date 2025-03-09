@@ -1,28 +1,28 @@
 import {test, expect, is} from "@benchristel/taste"
-import {getNaturalName, DisplayName} from "../src/index.js"
+import {naturalNameOf, DisplayName} from "../src/index.js"
 
-test("getNaturalName", {
+test("naturalNameOf", {
     "returns the `name` of a function"() {
         function stephen() {}
-        expect(getNaturalName(stephen), is, "stephen")
+        expect(naturalNameOf(stephen), is, "stephen")
     },
 
     "returns the `name` of a class"() {
         class Stephen {}
-        expect(getNaturalName(Stephen), is, "Stephen")
+        expect(naturalNameOf(Stephen), is, "Stephen")
     },
 
     "returns the empty string given an anonymous function"() {
-        expect(getNaturalName(() => {}), is, "")
+        expect(naturalNameOf(() => {}), is, "")
     },
 
     "returns undefined given a nameless object"() {
-        expect(getNaturalName({}), is, undefined)
+        expect(naturalNameOf({}), is, undefined)
     },
 
     "is unaffected by display names"() {
         function stephen() {}
         DisplayName.set("phteven", stephen)
-        expect(getNaturalName(stephen), is, "stephen")
+        expect(naturalNameOf(stephen), is, "stephen")
     },
 })

@@ -322,6 +322,9 @@ export const DisplayName = {
  * @Returns the given object's "natural name," if it has one. For functions and
  * classes, the natural name is given by the `name` property.
  */
+// TODO: I'm not sure if this should return undefined or empty string for
+// anonymous functions. I'll probably figure it out when I start implementing
+// inspect().
 export function getNaturalName(namedObject: WeakKey): string | undefined {
     switch (typeof namedObject) {
         case "function":

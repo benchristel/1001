@@ -10,6 +10,16 @@ expectAssignable<AnyFunction>(() => {})
 expectAssignable<AnyFunction>((x: number) => x)
 
 /**
+ * Even functions that never return satisfy `AnyFunction`.
+ */
+
+function neverReturns(): never {
+    throw 0
+}
+
+expectAssignable<AnyFunction>(neverReturns)
+
+/**
  * Non-callable objects are not assignable.
  */
 

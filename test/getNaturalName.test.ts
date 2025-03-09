@@ -12,9 +12,12 @@ test("getNaturalName", {
         expect(getNaturalName(Stephen), is, "Stephen")
     },
 
-    "returns the `description` of a symbol"() {
-        const symbol = Symbol("ism")
-        expect(getNaturalName(symbol), is, "ism")
+    "returns the empty string given an anonymous function"() {
+        expect(getNaturalName(() => {}), is, "")
+    },
+
+    "returns undefined given a nameless object"() {
+        expect(getNaturalName({}), is, undefined)
     },
 
     "is unaffected by display names"() {

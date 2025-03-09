@@ -21,7 +21,7 @@
     "glob": "^11.0.0",
     "husky": "^9.1.6",
     "tsd": "^0.31.2",
-    "typescript": "5.5.4"
+    "typescript": "<5.8.0"
   },
   "scripts": {
     "prepare": "husky"

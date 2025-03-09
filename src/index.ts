@@ -269,10 +269,6 @@ export function curry(f: AnyFunction): AnyFunction {
  * ```
  *
  * The natural name of a function or class is given by its `name` property.
- *
- * In addition, symbols have a `description` property which gives their natural
- * name.
- *
  * The display name of an object defaults to its natural name, if it has one.
  */
 
@@ -330,11 +326,6 @@ export function getNaturalName(namedObject: WeakKey): string | undefined {
     switch (typeof namedObject) {
         case "function":
             return namedObject.name
-        case "symbol":
-            // TODO: remove this cast to `any`. It's needed because `tsd` is
-            // based on an old version of TypeScript that apparently doesn't
-            // know that `typeof x` can be `"symbol"`.
-            return (namedObject as any).description
         default:
             return undefined
     }

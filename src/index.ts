@@ -238,11 +238,20 @@ export function curry(f: AnyFunction): AnyFunction {
     function curried(...args: any[]) {
         return args.length >= f.length
             ? f(...args)
-            : DisplayName.inheritFrom(curried, (...moreArgs: any[]) =>
-                curried(...args, ...moreArgs))
+            : DisplayName.inheritFrom(curried, partiallyApply(curried, args))
     }
 
     return DisplayName.inheritFrom(f, curried)
+}
+
+// TODO: keep track of the arguments passed to partial function applications in
+// a WeakMap, so we can display them when the function is `inspect`ed.
+
+/** */
+function partiallyApply(f: AnyFunction, args: unknown[]) {
+    const fWithArgs = (...moreArgs: unknown[]) => f(...args, ...moreArgs)
+    // TODO: partialArgs.set(fWithArgs, args)
+    return fWithArgs
 }
 
 /**

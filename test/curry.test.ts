@@ -36,12 +36,17 @@ test("a curried two-argument function", {
 })
 
 test("a partial application of a curried function", {
-    "preserves the name of the original function"() {
+    "retains the name of the original function"() {
         function add(a: number, b: number) {
             return a + b
         }
         const add1 = curry(add)(1)
         expect(DisplayName.get(add1), is, "add")
+    },
+
+    "retains a name given to the curried function"() {
+        const add = DisplayName.set("add", curry((a: number, b: number) => a + b))
+        expect(DisplayName.get(add(1)), is, "add")
     },
 })
 

@@ -238,7 +238,7 @@ export function curry(f: AnyFunction): AnyFunction {
     function curried(...args: any[]) {
         return args.length >= f.length
             ? f(...args)
-            : DisplayName.inheritFrom(f, (...moreArgs: any[]) =>
+            : DisplayName.inheritFrom(curried, (...moreArgs: any[]) =>
                 curried(...args, ...moreArgs))
     }
 

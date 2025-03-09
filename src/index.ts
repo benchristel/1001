@@ -61,12 +61,12 @@ interface JsonableObject {
  * ## Currying and partial function application
  */
 
-export type Function0<RV> = () => RV
-export type Function1<A, RV> = (a: A) => RV
-export type Function2<A, B, RV> = (a: A, b: B) => RV
-export type Function3<A, B, C, RV> = (a: A, b: B, c: C) => RV
-export type Function4<A, B, C, D, RV> = (a: A, b: B, c: C, d: D) => RV
-export type Function5<A, B, C, D, E, RV> = (a: A, b: B, c: C, d: D, e: E) => RV
+type Function0<RV> = () => RV
+type Function1<A, RV> = (a: A) => RV
+type Function2<A, B, RV> = (a: A, b: B) => RV
+type Function3<A, B, C, RV> = (a: A, b: B, c: C) => RV
+type Function4<A, B, C, D, RV> = (a: A, b: B, c: C, d: D) => RV
+type Function5<A, B, C, D, E, RV> = (a: A, b: B, c: C, d: D, e: E) => RV
 
 export type Curried0<RV> = Function0<RV>
 

@@ -30,3 +30,11 @@ export type AnyFunction = (...args: any[]) => void
  */
 
 export type AnyClass = new (...args: any[]) => void
+
+/** ### type `AnyAbstractClass` */
+/**
+ * Represents an abstract class, disregarding constructor parameters. Intended
+ * for use in type parameter constraints (i.e. `extends` clauses).
+ */
+
+export type AnyAbstractClass = abstract new (...args: any[]) => void

@@ -19,3 +19,12 @@ expectAssignable<AnyClass>(
  */
 
 expectNotAssignable<AnyClass>(() => ({}))
+
+/**
+ * An abstract class cannot be used as an `AnyClass`, because it isn't
+ * constructable.
+ */
+
+abstract class AnAbstractClass {}
+
+expectNotAssignable<AnyClass>(AnAbstractClass)

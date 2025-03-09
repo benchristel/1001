@@ -38,3 +38,21 @@ export type AnyClass = new (...args: any[]) => void
  */
 
 export type AnyAbstractClass = abstract new (...args: any[]) => void
+
+/** ### type `Jsonable` */
+/**
+ * Represents data that can be losslessly converted to JSON.
+ */
+
+export type Jsonable =
+    | null
+    | boolean
+    | number
+    | string
+    | Jsonable[]
+    | JsonableObject
+
+interface JsonableObject {
+    [key: string]: Jsonable;
+    [key: symbol]: never;
+}

@@ -1,4 +1,4 @@
-.DEFAULT_GOAL = verify
+.DEFAULT_GOAL = right
 TEST = bun dev/scripts/test.ts
 LINT = bun run eslint src test --config dev/config/eslint.config.js
 TYPE = bun run tsc --noEmit --project dev/config/tsconfig.json
@@ -6,7 +6,8 @@ TYPETEST = bun run tsd
 
 .PHONY: deps fix lint test ts typecheck typetest verify build release publish
 
-verify: test typecheck lint typetest
+right: test typecheck typetest fix ;
+verify: test typecheck lint typetest ;
 
 deps:
 	npm install

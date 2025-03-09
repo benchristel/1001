@@ -331,7 +331,9 @@ export function getNaturalName(namedObject: WeakKey): string | undefined {
         case "function":
             return namedObject.name
         case "symbol":
-            // TODO: figure out why namedObject is `never` here
+            // TODO: remove this cast to `any`. It's needed because `tsd` is
+            // based on an old version of TypeScript that apparently doesn't
+            // know that `typeof x` can be `"symbol"`.
             return (namedObject as any).description
         default:
             return undefined

@@ -1,5 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
-import {curry} from "../src/index.js"
+import {curry, DisplayName} from "../src/index.js"
 
 test("curry", {
     "does nothing to a zero-argument function"() {
@@ -10,6 +10,12 @@ test("curry", {
     "does nothing to a one-argument function"() {
         const curriedIncrement = curry((n: number) => n + 1)
         expect(curriedIncrement(1), is, 2)
+    },
+
+    "preserves the name of the original function"() {
+        function named() {}
+        const curried = curry(named)
+        expect(DisplayName.get(curried), is, "named")
     },
 })
 
@@ -26,6 +32,16 @@ test("a curried two-argument function", {
 
     "ignores extra arguments"() {
         expect((curriedConcat2 as any)("a", "b", "99"), is, "ab")
+    },
+})
+
+test("a partial application of a curried function", {
+    "preserves the name of the original function"() {
+        function add(a: number, b: number) {
+            return a + b
+        }
+        const add1 = curry(add)(1)
+        expect(DisplayName.get(add1), is, "add")
     },
 })
 

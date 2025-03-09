@@ -8,6 +8,35 @@
  * [literate]: http://www.literateprogramming.com/
  *
  *
+ * ## Design Choices
+ *
+ * ### Principles
+ *
+ * In designing, organizing, and documenting this library, we adhere to a few
+ * principles:
+ *
+ * - **Usage-driven design:** New elements are added to this library only
+ *   when they have proven useful under real-world conditions.
+ * - **Test-driven development:** Each public export has at least one
+ *   corresponding test file in the `test` directory: either a unit test file,
+ *   or a `tsd` type test file, or both. Every complication to the library must
+ *   be motivated by a test.
+ * - **Functional programming:** We avoid mutating shared objects. We strive to
+ *   enable clients of this library to write compositional, point-free,
+ *   typesafe programs.
+ * - **Object-oriented programming:** We also recognize the significant
+ *   benefits of object-oriented programming: in particular, encapsulation of
+ *   process state, and discoverability through method autocompletion.
+ *
+ * ### Naming
+ *
+ * Test files are named after the public export they test. When several
+ * elements cohere and need to be tested together (such as `DisplayName.get`
+ * and `DisplayName.set`), these are grouped into a single exported object (in
+ * this example, `DisplayName`) so the test file can be named after that
+ * object. We hope that this organization will make it easier to find the tests
+ * that document a particular facet of the library.
+ *
  * ## Foundational Types
  *
  * This section contains types that are so generally useful, they could have
@@ -206,9 +235,105 @@ export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C,
 export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
 export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
 export function curry(f: AnyFunction): AnyFunction {
-    return function curried(...args: any[]) {
+    function curried(...args: any[]) {
         return args.length >= f.length
             ? f(...args)
-            : (...moreArgs: any[]) => curried(...args, ...moreArgs)
+            : DisplayName.inheritFrom(f, (...moreArgs: any[]) =>
+                curried(...args, ...moreArgs))
+    }
+
+    return DisplayName.inheritFrom(f, curried)
+}
+
+/**
+ * ## Display Names
+ *
+ * An object may be given a *display name*, which is shown when the object is
+ * pretty-printed using `inspect()`.
+ *
+ * Some objects, such as functions and classes, have a "natural name," which is
+ * set when the following syntaxes are used:
+ *
+ * ```typescript
+ * function theNaturalName() {
+ *     // ...
+ * }
+ *
+ * class TheNaturalName {
+ *     // ...
+ * }
+ *
+ * const object = {
+ *     aMethodWithANaturalName() {}
+ * }
+ * ```
+ *
+ * The natural name of a function or class is given by its `name` property.
+ *
+ * In addition, symbols have a `description` property which gives their natural
+ * name.
+ *
+ * The display name of an object defaults to its natural name, if it has one.
+ */
+
+// TODO: add an inspect() function that uses displayName
+
+/** */
+const displayNames = new WeakMap<WeakKey, string | undefined>()
+
+export const DisplayName = {
+    /** ### `DisplayName.get` function */
+    /**
+     * @Returns the display name of the given object. Defaults to the object's
+     * natural name, or `undefined` if it has none.
+     */
+    get(namedObject: WeakKey): string | undefined {
+        if (displayNames.has(namedObject)) {
+            return displayNames.get(namedObject)
+        }
+
+        return getNaturalName(namedObject)
+    },
+
+    /** ### `DisplayName.set` function */
+    /**
+     * Associates a display name with the object. The given `name` may be
+     * `undefined`; if it is, subsequent calls to `DisplayName.get` will return
+     * `undefined` even if the object has a natural name.
+     *
+     * @Returns the named object.
+     */
+    set<T extends WeakKey>(name: string | undefined, namedObject: T): T {
+        displayNames.set(namedObject, name)
+        return namedObject
+    },
+
+    /** ### `DisplayName.inheritFrom` function */
+    /**
+     * A convenience wrapper for composing DisplayName.set and DisplayName.get.
+     * Causes the `inheritor` to have the same display name as the `original`
+     * object.
+     *
+     * @Returns the inheritor of the name.
+     */
+    inheritFrom<T extends WeakKey>(original: WeakKey, inheritor: T): T {
+        return DisplayName.set(DisplayName.get(original), inheritor)
+    },
+}
+
+/** ### `getNaturalName` function */
+/**
+ * @Returns the given object's "natural name," if it has one. For functions and
+ * classes, the natural name is given by the `name` property.
+ */
+export function getNaturalName(namedObject: WeakKey): string | undefined {
+    switch (typeof namedObject) {
+        case "function":
+            return namedObject.name
+        case "symbol":
+            // TODO: figure out why namedObject is `never` here
+            return (namedObject as any).description
+        default:
+            return undefined
     }
 }

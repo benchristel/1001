@@ -331,10 +331,9 @@ export const DisplayName = {
 // anonymous functions. I'll probably figure it out when I start implementing
 // inspect().
 export function getNaturalName(namedObject: WeakKey): string | undefined {
-    switch (typeof namedObject) {
-        case "function":
-            return namedObject.name
-        default:
-            return undefined
+    if (typeof namedObject === "function") {
+        return namedObject.name
     }
+
+    return undefined
 }

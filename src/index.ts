@@ -56,3 +56,58 @@ interface JsonableObject {
     [key: string]: Jsonable;
     [key: symbol]: never;
 }
+
+/**
+ * ## Currying and partial function application
+ */
+
+export type Function0<RV> = () => RV
+export type Function1<A, RV> = (a: A) => RV
+export type Function2<A, B, RV> = (a: A, b: B) => RV
+export type Function3<A, B, C, RV> = (a: A, b: B, c: C) => RV
+export type Function4<A, B, C, D, RV> = (a: A, b: B, c: C, d: D) => RV
+export type Function5<A, B, C, D, E, RV> = (a: A, b: B, c: C, d: D, e: E) => RV
+
+export type Curried0<RV> = Function0<RV>
+
+export type Curried1<A, RV> = Function1<A, RV>
+
+export type Curried2<A, B, RV> = (
+    & ((a: A, b: B) => RV)
+    & ((a: A) => Curried1<B, RV>)
+)
+
+export type Curried3<A, B, C, RV> = (
+    & ((a: A, b: B, c: C) => RV)
+    & ((a: A, b: B) => Curried1<C, RV>)
+    & ((a: A) => Curried2<B, C, RV>)
+)
+
+export type Curried4<A, B, C, D, RV> = (
+    & ((a: A, b: B, c: C, d: D) => RV)
+    & ((a: A, b: B, c: C) => Curried1<D, RV>)
+    & ((a: A, b: B) => Curried2<C, D, RV>)
+    & ((a: A) => Curried3<B, C, D, RV>)
+)
+
+export type Curried5<A, B, C, D, E, RV> = (
+    & ((a: A, b: B, c: C, d: D, e: E) => RV)
+    & ((a: A, b: B, c: C, d: D) => Curried1<E, RV>)
+    & ((a: A, b: B, c: C) => Curried2<D, E, RV>)
+    & ((a: A, b: B) => Curried3<C, D, E, RV>)
+    & ((a: A) => Curried4<B, C, D, E, RV>)
+)
+
+export function curry<RV>(F: Function0<RV>): Curried0<RV>
+export function curry<A, RV>(f: Function1<A, RV>): Curried1<A, RV>
+export function curry<A, B, RV>(f: Function2<A, B, RV>): Curried2<A, B, RV>
+export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C, RV>
+export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
+export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
+export function curry(f: AnyFunction): AnyFunction {
+    return function curried(...args: any[]) {
+        return args.length >= f.length
+            ? f(...args)
+            : (...moreArgs: any[]) => curried(...args, ...moreArgs)
+    }
+}

@@ -13,19 +13,19 @@ test("curry", {
     },
 })
 
-const curriedAdd2 = curry((a: number, b: number) => a + b)
+const curriedConcat2 = curry((a: string, b: string) => a + b)
 
 test("a curried two-argument function", {
     "can be passed both arguments at once"() {
-        expect(curriedAdd2(1, 2), is, 3)
+        expect(curriedConcat2("a", "b"), is, "ab")
     },
 
     "can be passed its arguments one by one"() {
-        expect(curriedAdd2(1)(2), is, 3)
+        expect(curriedConcat2("a")("b"), is, "ab")
     },
 
     "ignores extra arguments"() {
-        expect((curriedAdd2 as any)(1, 2, 9), is, 3)
+        expect((curriedConcat2 as any)("a", "b", "99"), is, "ab")
     },
 })
 

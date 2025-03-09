@@ -61,6 +61,7 @@ interface JsonableObject {
  * ## Currying and partial function application
  */
 
+/** */
 type Function0<RV> = () => RV
 type Function1<A, RV> = (a: A) => RV
 type Function2<A, B, RV> = (a: A, b: B) => RV
@@ -68,20 +69,56 @@ type Function3<A, B, C, RV> = (a: A, b: B, c: C) => RV
 type Function4<A, B, C, D, RV> = (a: A, b: B, c: C, d: D) => RV
 type Function5<A, B, C, D, E, RV> = (a: A, b: B, c: C, d: D, e: E) => RV
 
+/** ### `Curried0` type */
+/**
+ * Represents a zero-argument "curried" function. This is identical to an
+ * ordinary zero-argument function. This type only exists for the sake of
+ * symmetry.
+ */
+
 export type Curried0<RV> = Function0<RV>
 
+/** ### `Curried1` type */
+/**
+ * Represents a one-argument "curried" function. This is identical to an
+ * ordinary one-argument function. This type only exists for the sake of
+ * symmetry.
+ */
+
 export type Curried1<A, RV> = Function1<A, RV>
+
+/** ### `Curried2` type */
+/**
+ * Represents a two-argument curried function, which can be passed its
+ * arguments in a single call, or in two chained calls.
+ */
 
 export type Curried2<A, B, RV> = (
     & ((a: A, b: B) => RV)
     & ((a: A) => Curried1<B, RV>)
 )
 
+/** ### `Curried3` type */
+/**
+ * Represents a three-argument curried function, which can be passed its
+ * arguments in a single call, or in several chained calls. If not all
+ * arguments are supplied, returns a curried function that takes the remaining
+ * arguments.
+ */
+
 export type Curried3<A, B, C, RV> = (
     & ((a: A, b: B, c: C) => RV)
     & ((a: A, b: B) => Curried1<C, RV>)
     & ((a: A) => Curried2<B, C, RV>)
 )
+
+/** ### `Curried4` type */
+/**
+ * Represents a four-argument curried function, which can be passed its
+ * arguments in a single call, or in several chained calls. If not all
+ * arguments are supplied, returns a curried function that takes the remaining
+ * arguments.
+ */
 
 export type Curried4<A, B, C, D, RV> = (
     & ((a: A, b: B, c: C, d: D) => RV)
@@ -90,6 +127,14 @@ export type Curried4<A, B, C, D, RV> = (
     & ((a: A) => Curried3<B, C, D, RV>)
 )
 
+/** ### `Curried5` type */
+/**
+ * Represents a five-argument curried function, which can be passed its
+ * arguments in a single call, or in several chained calls. If not all
+ * arguments are supplied, returns a curried function that takes the remaining
+ * arguments.
+ */
+
 export type Curried5<A, B, C, D, E, RV> = (
     & ((a: A, b: B, c: C, d: D, e: E) => RV)
     & ((a: A, b: B, c: C, d: D) => Curried1<E, RV>)
@@ -97,6 +142,16 @@ export type Curried5<A, B, C, D, E, RV> = (
     & ((a: A, b: B) => Curried3<C, D, E, RV>)
     & ((a: A) => Curried4<B, C, D, E, RV>)
 )
+
+/** ### `curry` function */
+/**
+ * Returns a curried version of the given function, which may have up to five
+ * parameters. The function passed to `curry` must not be generic, and must not
+ * have [default parameters][default-params] or [rest parameters][rest-params].
+ *
+ * [default-params]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
+ * [rest-params]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
+ */
 
 export function curry<RV>(F: Function0<RV>): Curried0<RV>
 export function curry<A, RV>(f: Function1<A, RV>): Curried1<A, RV>

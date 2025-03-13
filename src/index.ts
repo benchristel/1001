@@ -31,11 +31,10 @@
  * ### Naming
  *
  * Test files are named after the public export they test. When several
- * elements cohere and need to be tested together (such as `DisplayName.get`
- * and `DisplayName.set`), these are grouped into a single exported object (in
- * this example, `DisplayName`) so the test file can be named after that
- * object. We hope that this organization will make it easier to find the tests
- * that document a particular facet of the library.
+ * elements cohere and need to be tested together, these are grouped into a
+ * single exported object so the test file can be named after that object. We
+ * hope that this organization will make it easier to find the tests that
+ * document a particular facet of the library.
  *
  * ## Foundational Types
  *
@@ -251,131 +250,48 @@ export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A,
 export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
 export function curry(f: AnyFunction): AnyFunction {
     function curried(...args: any[]) {
-        return args.length >= f.length
-            ? f(...args)
-            : DisplayName.inheritFrom(curried, partiallyApply(curried, args))
+        if (args.length >= f.length) {
+            return f(...args)
+        } else {
+            const p = (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
+            p.displayName = getDisplayName(curried)
+            return p
+        }
     }
 
-    return DisplayName.inheritFrom(f, curried)
-}
-
-// TODO: keep track of the arguments passed to partial function applications in
-// a WeakMap, so we can display them when the function is `inspect`ed.
-
-/** */
-function partiallyApply(f: AnyFunction, args: unknown[]) {
-    const fWithArgs = (...moreArgs: unknown[]) => f(...args, ...moreArgs)
-    // TODO: partialArgs.set(fWithArgs, args)
-    return fWithArgs
+    curried.displayName = getDisplayName(f)
+    return curried
 }
 
 /**
  * ## Display Names
  *
- * An object may be given a *display name*, which is shown when the object is
- * pretty-printed using `inspect()`.
+ * A function may be given a *display name*, which is shown when the function
+ * is pretty-printed using `inspect()`. The display name default's to the
+ * function's `name` property, and may be overridden by setting the
+ * `displayName` property.
  *
- * Some objects, such as functions and classes, have a "natural name," which is
- * set when the following syntaxes are used:
+ * `displayName` is a nonstandard property, although [it is used by React's and
+ * Firefox's dev tools][1]. Therefore, we declare the `displayName` property on
+ * `Function` to prevent type errors when we get or set it.
  *
- * ```typescript
- * function theNaturalName() {
- *     // ...
- * }
- *
- * class TheNaturalName {
- *     // ...
- * }
- *
- * const object = {
- *     aMethodWithANaturalName() {}
- * }
- * ```
- *
- * The natural name of a function or class is given by its `name` property.
- * The display name of an object defaults to its natural name, if it has one.
+ * [1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/displayName
  */
+
+declare global {
+    interface Function {
+        displayName: string | undefined;
+    }
+}
 
 // TODO: add an inspect() function that uses displayName
 
-/** */
-const displayNames = new WeakMap<WeakKey, string | undefined>()
-
-export const DisplayName = {
-
-    /** ### `DisplayName.get` function */
-    /**
-     * @Returns the display name of the given object. Defaults to the object's
-     * natural name, or `undefined` if it has none.
-     */
-
-    get(namedObject: WeakKey): string | undefined {
-        if (displayNames.has(namedObject)) {
-            return displayNames.get(namedObject)
-        }
-
-        return naturalNameOf(namedObject)
-    },
-
-    /** ### `DisplayName.set` function */
-    /**
-     * Associates a display name with the object. The given `name` may be
-     * `undefined`; if it is, subsequent calls to `DisplayName.get` will return
-     * `undefined` even if the object has a natural name.
-     *
-     * @Returns the named object.
-     */
-
-    set<T extends WeakKey>(name: string | undefined, namedObject: T): T {
-        displayNames.set(namedObject, name)
-        return namedObject
-    },
-
-    /** ### `DisplayName.inheritFrom` function */
-    /**
-     * A convenience wrapper for composing DisplayName.set and DisplayName.get.
-     * Causes the `inheritor` to have the same display name as the `original`
-     * object.
-     *
-     * @Returns the inheritor of the name.
-     */
-
-    inheritFrom<T extends WeakKey>(original: WeakKey, inheritor: T): T {
-        return DisplayName.set(DisplayName.get(original), inheritor)
-    },
-}
-
-/** ### `naturalNameOf` function */
+/** ### `getDisplayName` function */
 /**
- * @Returns the given object's "natural name," if it has one. For functions and
- * classes, the natural name is given by the `name` property.
+ * @Returns the display name of the given function. The "display name" is the
+ * function's `displayName` property, or its `name` if `displayName` is null,
+ * undefined, or empty.
  */
-
-// TODO: I'm not sure if this should return undefined or empty string for
-// anonymous functions. I'll probably figure it out when I start implementing
-// inspect().
-export function naturalNameOf(namedObject: WeakKey): string | undefined {
-    if (typeof namedObject === "function") {
-        return namedObject.name
-    }
-
-    return undefined
+export function getDisplayName(f: AnyFunction): string {
+    return f.displayName || f.name
 }
-
-/** ### `name` function */
-/**
- * A curried convenience wrapper around `DisplayName.get`. Sets the display
- * name of the given function, class, or object.
- *
- * @example
- * ```typescript
- * export const eq = name("eq")(curry(_eq))
- *
- * function _eq(a: unknown, b: unknown): boolean {
- *   return a === b
- * }
- * ```
- */
-
-export const name = (displayName: string) =>
-    <T extends WeakKey>(object: T): T => DisplayName.set(displayName, object)

@@ -101,6 +101,39 @@ export function isString(value: unknown): value is string {
 }
 
 /**
+ * ## Display Names
+ *
+ * A function may be given a *display name*, which is shown when the function
+ * is pretty-printed using `inspect()`. The display name default's to the
+ * function's `name` property, and may be overridden by setting the
+ * `displayName` property.
+ *
+ * `displayName` is a nonstandard property, although [it is used by React's and
+ * Firefox's dev tools][1]. Therefore, we declare the `displayName` property on
+ * `Function` to prevent type errors when we get or set it.
+ *
+ * [1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/displayName
+ */
+
+declare global {
+    interface Function {
+        displayName: string | undefined;
+    }
+}
+
+// TODO: add an inspect() function that uses displayName
+
+/** ### `getDisplayName` function */
+/**
+ * @Returns the display name of the given function. The "display name" is the
+ * function's `displayName` property, or its `name` if `displayName` is null,
+ * undefined, or empty.
+ */
+export function getDisplayName(f: AnyFunction): string {
+    return f.displayName || f.name
+}
+
+/**
  * ## Currying and partial function application
  *
  * [Currying] is the process of taking a function that accepts
@@ -261,37 +294,4 @@ export function curry(f: AnyFunction): AnyFunction {
 
     curried.displayName = getDisplayName(f)
     return curried
-}
-
-/**
- * ## Display Names
- *
- * A function may be given a *display name*, which is shown when the function
- * is pretty-printed using `inspect()`. The display name default's to the
- * function's `name` property, and may be overridden by setting the
- * `displayName` property.
- *
- * `displayName` is a nonstandard property, although [it is used by React's and
- * Firefox's dev tools][1]. Therefore, we declare the `displayName` property on
- * `Function` to prevent type errors when we get or set it.
- *
- * [1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/displayName
- */
-
-declare global {
-    interface Function {
-        displayName: string | undefined;
-    }
-}
-
-// TODO: add an inspect() function that uses displayName
-
-/** ### `getDisplayName` function */
-/**
- * @Returns the display name of the given function. The "display name" is the
- * function's `displayName` property, or its `name` if `displayName` is null,
- * undefined, or empty.
- */
-export function getDisplayName(f: AnyFunction): string {
-    return f.displayName || f.name
 }

@@ -283,16 +283,62 @@ export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C,
 export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
 export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
 export function curry(f: AnyFunction): AnyFunction {
-    function curried(...args: any[]) {
+    /* Optimize the common cases. Curried functions can run about 5x faster
+     * when we use positional parameters instead of rest parameters, presumably
+     * because the JS engine knows the maximum number of arguments to expect
+     * and can allocate space for them more efficiently.
+     */
+    switch (f.length) {
+        case 0:
+        case 1:
+            return f
+        case 2:
+            return curry2(f)
+        case 3:
+            return curry3(f)
+    }
+
+    /* It's rare for curried functions to need more than 3 parameters, so
+     * rather than make web users download special-case code for curry4 and
+     * curry5, we just use rest parameters for those cases.
+     */
+    return copyDisplayDataFrom(f, function curried(...args: any[]) {
         if (args.length >= f.length) {
             return f(...args)
         } else {
-            const p = (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
-            p.displayName = getDisplayName(curried)
-            return p
+            return copyDisplayDataFrom(
+                curried,
+                (...moreArgs: unknown[]) => curried(...args, ...moreArgs),
+            )
         }
+    })
+}
+
+function copyDisplayDataFrom<T extends AnyFunction>(source: AnyFunction, dest: T): T {
+    dest.displayName = getDisplayName(source)
+    return dest
+}
+
+const notPassed = Symbol()
+
+function curry2(f: AnyFunction): AnyFunction {
+    function curried(a: any, b: any = notPassed) {
+        return b === notPassed
+            ? copyDisplayDataFrom(curried, (b: any) => f(a, b))
+            : f(a, b)
     }
 
-    curried.displayName = getDisplayName(f)
-    return curried
+    return copyDisplayDataFrom(f, curried)
+}
+
+function curry3(f: AnyFunction): AnyFunction {
+    function curried(a: any, b: any = notPassed, c: any = notPassed) {
+        return b === notPassed
+            ? copyDisplayDataFrom(curried, curry2((b: any, c: any) => f(a, b, c)))
+            : c === notPassed
+                ? copyDisplayDataFrom(curried, (c: any) => f(a, b, c))
+                : f(a, b, c)
+    }
+
+    return copyDisplayDataFrom(f, curried)
 }

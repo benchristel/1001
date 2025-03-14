@@ -1,5 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
-import {curry} from "../src/index.js"
+import {curry, getDisplayName} from "../src/index.js"
 
 test("curry", {
     "does nothing to a zero-argument function"() {
@@ -15,7 +15,7 @@ test("curry", {
     "preserves the name of the original function"() {
         function named() {}
         const curried = curry(named)
-        expect(curried.displayName, is, "named")
+        expect(getDisplayName(curried), is, "named")
     },
 })
 
@@ -56,7 +56,7 @@ function add(a: number, b: number) {
     return a + b
 }
 
-test("a partial application of a curried function", {
+test("a partial application of a curried two-argument function", {
     "retains the name of the original function"() {
         const add1 = curry(add)(1)
 
@@ -76,6 +76,55 @@ test("a partial application of a curried function", {
         add.displayName = "the displayName"
 
         const add1 = curry(add)(1)
+
+        expect(add1.displayName, is, "the displayName")
+    },
+})
+
+test("a partial application of a curried three-argument function", {
+    "retains the name of the original function"() {
+        const add = (a: number, b: number, c: number) => a + b + c
+        add.displayName = "the displayName"
+
+        const add1 = curry(add)(1)
+
+        expect(add1.displayName, is, "the displayName")
+    },
+
+    "retains the name of the original function through multiple calls"() {
+        const add = (a: number, b: number, c: number) => a + b + c
+        add.displayName = "the displayName"
+
+        const add3 = curry(add)(1)(2)
+
+        expect(add3.displayName, is, "the displayName")
+    },
+
+    "retains a displayName given to the curried function"() {
+        const add = (a: number, b: number, c: number) => a + b + c
+        const curriedAdd = curry(add)
+        curriedAdd.displayName = "the displayName"
+        const add1 = curriedAdd(1)
+
+        expect(add1.displayName, is, "the displayName")
+    },
+})
+
+test("a partial application of a curried four-argument function", {
+    "retains the name of the original function through multiple calls"() {
+        const add = (a: number, b: number, c: number, d: number) => a + b + c + d
+        add.displayName = "the displayName"
+
+        const add6 = curry(add)(1)(2)(3)
+
+        expect(add6.displayName, is, "the displayName")
+    },
+
+    "retains a displayName given to the curried function"() {
+        const add = (a: number, b: number, c: number, d: number) => a + b + c + d
+        const curriedAdd = curry(add)
+        curriedAdd.displayName = "the displayName"
+        const add1 = curriedAdd(1)
 
         expect(add1.displayName, is, "the displayName")
     },

@@ -283,10 +283,10 @@ export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C,
 export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
 export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
 export function curry(f: AnyFunction): AnyFunction {
-    /* Optimize the common cases. Curried functions can run about 5x faster
-     * when we use positional parameters instead of rest parameters, presumably
-     * because the JS engine knows the maximum number of arguments to expect
-     * and can allocate space for them more efficiently.
+    /* Optimize the common cases. Curried functions can run up to 75x faster
+     * when we use positional parameters instead of rest parameters. Based on
+     * our performance testing (with `bun` as the JS runtime), it seems that
+     * concatenating argument lists is particularly slow.
      */
     switch (f.length) {
         case 0:

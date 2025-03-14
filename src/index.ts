@@ -121,7 +121,7 @@ declare global {
     }
 }
 
-// TODO: add a formatPretty() function that uses displayName
+// TODO: add an inspect() function that uses displayName
 
 /** ### `getDisplayName` function */
 /**
@@ -274,8 +274,6 @@ export type Curried5<A, B, C, D, E, RV> = (
  *
  * [default parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
  * [rest parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
- *
- * @see also {@link curryPretty}.
  */
 
 export function curry<RV>(f: Function0<RV>): Curried0<RV>
@@ -290,47 +288,4 @@ export function curry(f: AnyFunction): AnyFunction {
             ? f(...args)
             : (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
     }
-}
-
-/** ### `curryPretty` function */
-/**
- * Returns a curried version of the given function, which may have up to five
- * parameters. The function passed to `curryPretty` must not be generic, and
- * must not have [default parameters] or [rest parameters].
- *
- * [default parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
- * [rest parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
- *
- * `curryPretty` differs from {@link curry} by adding metadata to the returned
- * function, allowing it (and partial applications of it) to be pretty-printed
- * by {@link formatPretty}. The pretty-printed format includes the function's
- * name and any arguments that have been passed to it.
- *
- * @see also {@link curry}.
- */
-
-export function curryPretty<RV>(name: string, f: Function0<RV>): Curried0<RV>
-export function curryPretty<A, RV>(name: string, f: Function1<A, RV>): Curried1<A, RV>
-export function curryPretty<A, B, RV>(name: string, f: Function2<A, B, RV>): Curried2<A, B, RV>
-export function curryPretty<A, B, C, RV>(name: string, f: Function3<A, B, C, RV>): Curried3<A, B, C, RV>
-export function curryPretty<A, B, C, D, RV>(name: string, f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
-export function curryPretty<A, B, C, D, E, RV>(name: string, f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
-export function curryPretty(name: string, f: AnyFunction): AnyFunction {
-    function curried(...args: any[]) {
-        if (args.length >= f.length) {
-            return f(...args)
-        } else {
-            const partiallyApplied = (...moreArgs: unknown[]) => {
-                return curried(...args, ...moreArgs)
-            }
-
-            partiallyApplied.displayName = name
-
-            return partiallyApplied
-        }
-    }
-
-    curried.displayName = name
-
-    return curried
 }

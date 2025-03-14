@@ -129,6 +129,7 @@ declare global {
  * function's `displayName` property, or its `name` if `displayName` is null,
  * undefined, or empty.
  */
+
 export function getDisplayName(f: AnyFunction): string {
     return f.displayName || f.name
 }

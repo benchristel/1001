@@ -276,7 +276,7 @@ export type Curried5<A, B, C, D, E, RV> = (
  * [rest parameters]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
  */
 
-export function curry<RV>(F: Function0<RV>): Curried0<RV>
+export function curry<RV>(f: Function0<RV>): Curried0<RV>
 export function curry<A, RV>(f: Function1<A, RV>): Curried1<A, RV>
 export function curry<A, B, RV>(f: Function2<A, B, RV>): Curried2<A, B, RV>
 export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C, RV>

@@ -40,6 +40,12 @@ test("a curried two-argument function", {
     "ignores extra arguments"() {
         expect((curriedConcat2 as any)("a", "b", "99"), is, "ab")
     },
+
+    "returns itself when called with no arguments"() {
+        // The types forbid zero-argument calls because they're probably
+        // mistakes, so we have to cast to `any` here.
+        expect((curriedConcat2 as any)(), is, curriedConcat2)
+    },
 })
 
 const curriedAdd3 = curry((a: number, b: number, c: number) => a + b + c)
@@ -56,6 +62,16 @@ test("a curried three-argument function", {
     "can be passed its arguments in groups"() {
         expect(curriedAdd3(1, 2)(4), is, 7)
         expect(curriedAdd3(1)(3, 4), is, 8)
+    },
+
+    "ignores extra arguments"() {
+        expect((curriedAdd3 as any)(1, 2, 3, "99"), is, 6)
+    },
+
+    "returns itself when called with no arguments"() {
+        // The types forbid zero-argument calls because they're probably
+        // mistakes, so we have to cast to `any` here.
+        expect((curriedAdd3 as any)(), is, curriedAdd3)
     },
 })
 

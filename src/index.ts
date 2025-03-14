@@ -307,12 +307,20 @@ export function curry(f: AnyFunction): AnyFunction {
 
 function curry2(f: AnyFunction): AnyFunction {
     function curried(a: any, b: any) {
-        if (arguments.length === 1) {
-            const partiallyApplied = (b: any) => f(a, b)
-            return copyDisplayDataFrom(curried, partiallyApplied)
-        } else {
-            return f(a, b)
+        let partiallyApplied: AnyFunction
+
+        switch (arguments.length) {
+            case 0:
+                partiallyApplied = curried
+                break
+            case 1:
+                partiallyApplied = (b: any) => f(a, b)
+                break
+            default:
+                return f(a, b)
         }
+
+        return copyDisplayDataFrom(curried, partiallyApplied)
     }
 
     return copyDisplayDataFrom(f, curried)
@@ -320,15 +328,23 @@ function curry2(f: AnyFunction): AnyFunction {
 
 function curry3(f: AnyFunction): AnyFunction {
     function curried(a: any, b: any, c: any) {
-        if (arguments.length === 1) {
-            const partiallyApplied = curry2((b: any, c: any) => f(a, b, c))
-            return copyDisplayDataFrom(curried, partiallyApplied)
-        } else if (arguments.length === 2) {
-            const partiallyApplied = (c: any) => f(a, b, c)
-            return copyDisplayDataFrom(curried, partiallyApplied)
-        } else {
-            return f(a, b, c)
+        let partiallyApplied: AnyFunction
+
+        switch (arguments.length) {
+            case 0:
+                partiallyApplied = curried
+                break
+            case 1:
+                partiallyApplied = curry2((b: any, c: any) => f(a, b, c))
+                break
+            case 2:
+                partiallyApplied = (c: any) => f(a, b, c)
+                break
+            default:
+                return f(a, b, c)
         }
+
+        return copyDisplayDataFrom(curried, partiallyApplied)
     }
 
     return copyDisplayDataFrom(f, curried)

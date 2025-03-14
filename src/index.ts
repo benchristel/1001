@@ -296,13 +296,46 @@ export function curry(f: AnyFunction): AnyFunction {
             return curry2(f)
         case 3:
             return curry3(f)
+        default:
+            /* It's rare for curried functions to need more than 3 parameters,
+             * so rather than make web users download special-case code for
+             * curry4 and curry5, we just use rest parameters for those cases.
+             */
+            return curryVariadic(f)
+    }
+}
+
+function curry2(f: AnyFunction): AnyFunction {
+    function curried(a: any, b: any) {
+        if (arguments.length === 1) {
+            const partiallyApplied = (b: any) => f(a, b)
+            return copyDisplayDataFrom(curried, partiallyApplied)
+        } else {
+            return f(a, b)
+        }
     }
 
-    /* It's rare for curried functions to need more than 3 parameters, so
-     * rather than make web users download special-case code for curry4 and
-     * curry5, we just use rest parameters for those cases.
-     */
-    return copyDisplayDataFrom(f, function curried(...args: any[]) {
+    return copyDisplayDataFrom(f, curried)
+}
+
+function curry3(f: AnyFunction): AnyFunction {
+    function curried(a: any, b: any, c: any) {
+        if (arguments.length === 1) {
+            const partiallyApplied = curry2((b: any, c: any) => f(a, b, c))
+            return copyDisplayDataFrom(curried, partiallyApplied)
+        } else if (arguments.length === 2) {
+            const partiallyApplied = (c: any) => f(a, b, c)
+            return copyDisplayDataFrom(curried, partiallyApplied)
+        } else {
+            return f(a, b, c)
+        }
+    }
+
+    return copyDisplayDataFrom(f, curried)
+}
+
+function curryVariadic(f: AnyFunction): AnyFunction {
+    function curried(...args: any[]): any {
         if (args.length >= f.length) {
             return f(...args)
         } else {
@@ -311,34 +344,15 @@ export function curry(f: AnyFunction): AnyFunction {
                 (...moreArgs: unknown[]) => curried(...args, ...moreArgs),
             )
         }
-    })
+    }
+
+    return copyDisplayDataFrom(f, curried)
 }
 
-function copyDisplayDataFrom<T extends AnyFunction>(source: AnyFunction, dest: T): T {
+function copyDisplayDataFrom<T extends AnyFunction>(
+    source: AnyFunction,
+    dest: T,
+): T {
     dest.displayName = getDisplayName(source)
     return dest
-}
-
-const notPassed = Symbol()
-
-function curry2(f: AnyFunction): AnyFunction {
-    function curried(a: any, b: any = notPassed) {
-        return b === notPassed
-            ? copyDisplayDataFrom(curried, (b: any) => f(a, b))
-            : f(a, b)
-    }
-
-    return copyDisplayDataFrom(f, curried)
-}
-
-function curry3(f: AnyFunction): AnyFunction {
-    function curried(a: any, b: any = notPassed, c: any = notPassed) {
-        return b === notPassed
-            ? copyDisplayDataFrom(curried, curry2((b: any, c: any) => f(a, b, c)))
-            : c === notPassed
-                ? copyDisplayDataFrom(curried, (c: any) => f(a, b, c))
-                : f(a, b, c)
-    }
-
-    return copyDisplayDataFrom(f, curried)
 }

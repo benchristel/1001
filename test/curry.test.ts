@@ -17,6 +17,13 @@ test("curry", {
         const curried = curry(named)
         expect(getDisplayName(curried), is, "named")
     },
+
+    "treats `undefined` differently from the absence of an argument"() {
+        const third = curry((a: any, b: any, c: any) => c)
+
+        expect(typeof third(undefined, undefined), is, "function")
+        expect(third(undefined, undefined, undefined), is, undefined)
+    },
 })
 
 const curriedConcat2 = curry((a: string, b: string) => a + b)

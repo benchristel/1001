@@ -30,6 +30,9 @@ typecheck:
 typetest: build
 	@$(TYPETEST)
 
+perf:
+	@$(TEST) 'performance/**/*.perftest.ts'
+
 build:
 	@rm -rf dist
 	@bun run tsc --project dev/config/tsconfig.build.json

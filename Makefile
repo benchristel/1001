@@ -30,6 +30,9 @@ typecheck:
 typetest: build
 	@$(TYPETEST)
 
+sys:
+	@dev/scripts/system-test.sh 2>/dev/null
+
 perf:
 	@$(TEST) 'performance/**/*.perftest.ts'
 

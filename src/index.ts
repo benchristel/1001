@@ -283,9 +283,16 @@ export function curry<A, B, C, RV>(f: Function3<A, B, C, RV>): Curried3<A, B, C,
 export function curry<A, B, C, D, RV>(f: Function4<A, B, C, D, RV>): Curried4<A, B, C, D, RV>
 export function curry<A, B, C, D, E, RV>(f: Function5<A, B, C, D, E, RV>): Curried5<A, B, C, D, E, RV>
 export function curry(f: AnyFunction): AnyFunction {
-    return function curried(...args: any[]) {
-        return args.length >= f.length
-            ? f(...args)
-            : (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
+    function curried(...args: any[]) {
+        if (args.length >= f.length) {
+            return f(...args)
+        } else {
+            const p = (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
+            p.displayName = getDisplayName(curried)
+            return p
+        }
     }
+
+    curried.displayName = getDisplayName(f)
+    return curried
 }

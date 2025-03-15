@@ -112,7 +112,29 @@ export function isNumber(value: unknown): value is number {
     return typeof value === "number"
 }
 
-// TODO: isRealNumber
+/** ### `isRealNumber` function */
+/**
+ * @Returns true iff the given `value` is a real number. `NaN`, `Infinity`,
+ * and `-Infinity` are not real numbers.
+ *
+ * `isRealNumber` is provided as an alias for the platform-native
+ * [`Number.isFinite`] because the latter does not narrow the type of its
+ * argument in TypeScript 5.7.3. Prefer `Number.isFinite` in non-TypeScript
+ * programs.
+ *
+ * [`Number.isFinite`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite
+ *
+ * The name `isRealNumber` was chosen instead of `isFinite` in part to avoid
+ * confusion with the [global `isFinite` function], which coerces its argument to
+ * a number before checking it.
+ *
+ * [global `isFinite` function]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite#difference_between_number.isfinite_and_global_isfinite
+ */
+
+export function isRealNumber(value: unknown): value is number {
+    return Number.isFinite(value)
+}
+
 // TODO: isInteger
 
 /**

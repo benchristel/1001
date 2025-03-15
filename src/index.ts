@@ -105,7 +105,7 @@ export function isString(value: unknown): value is string {
  * @Returns true iff the given `value` is of type `number`. Note that
  * `isNumber` considers `NaN`, `Infinity`, and `-Infinity` to be numbers,
  * because they satisfy the `number` type. For stricter checks, see
- * {@link isRealNumber} and {@link isInteger}.
+ * {@link isRealNumber}, {@link isInteger}, and {@link isSafeInteger}.
  */
 
 export function isNumber(value: unknown): value is number {
@@ -135,7 +135,30 @@ export function isRealNumber(value: unknown): value is number {
     return Number.isFinite(value)
 }
 
-// TODO: isInteger
+/** ### `isInteger` function */
+/**
+ * @Returns true iff the given `value` is a  whole number.
+ *
+ * Note that JavaScript cannot unambiguously represent integers outside the
+ * range [-(2^53 - 1), 2^53 - 1] because it uses [IEEE 754 64-bit floating
+ * point] for all numbers. Use {@link isSafeInteger} to determine whether a
+ * number falls within the range of precisely representable integers.
+ *
+ * [IEEE 754 64-bit floating point]: https://en.wikipedia.org/wiki/IEEE_754
+ *
+ * `isInteger` is provided as an alias for the platform-native
+ * [`Number.isInteger`] because the latter does not narrow the type of its
+ * argument in TypeScript 5.7.3. Prefer `Number.isInteger` in non-TypeScript
+ * programs.
+ *
+ * [`Number.isInteger`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
+ */
+
+export function isInteger(value: unknown): value is number {
+    return Number.isInteger(value)
+}
+
+// TODO: isSafeInteger
 
 /**
  * ## Display Names

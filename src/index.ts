@@ -355,10 +355,9 @@ function curryVariadic(f: AnyFunction): AnyFunction {
         if (args.length >= f.length) {
             return f(...args)
         } else {
-            return copyDisplayDataFrom(
-                curried,
-                (...moreArgs: unknown[]) => curried(...args, ...moreArgs),
-            )
+            const partiallyApplied =
+                (...moreArgs: unknown[]) => curried(...args, ...moreArgs)
+            return copyDisplayDataFrom(curried, partiallyApplied)
         }
     }
 

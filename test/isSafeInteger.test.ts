@@ -40,6 +40,10 @@ test("isSafeInteger", {
         expect(isSafeInteger("0"), is, false)
     },
 
+    "returns false given a BigInt"() {
+        expect(isSafeInteger(BigInt(0)), is, false)
+    },
+
     "returns false given a boolean"() {
         expect(isSafeInteger(true), is, false)
     },

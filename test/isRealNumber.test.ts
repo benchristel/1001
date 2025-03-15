@@ -14,6 +14,10 @@ test("isRealNumber", {
         expect(isRealNumber("0"), is, false)
     },
 
+    "returns false given a BigInt"() {
+        expect(isRealNumber(BigInt(0)), is, false)
+    },
+
     "returns false given a boolean"() {
         expect(isRealNumber(true), is, false)
     },

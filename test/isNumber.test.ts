@@ -6,8 +6,12 @@ test("isNumber", {
         expect(isNumber(0), is, true)
     },
 
-    "returns false given a string"() {
+    "returns false given a numeric string"() {
         expect(isNumber("0"), is, false)
+    },
+
+    "returns false given a BigInt"() {
+        expect(isNumber(BigInt(0)), is, false)
     },
 
     "returns false given a boolean"() {

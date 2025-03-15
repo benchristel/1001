@@ -22,6 +22,10 @@ test("isInteger", {
         expect(isInteger("0"), is, false)
     },
 
+    "returns false given a BigInt"() {
+        expect(isInteger(BigInt(0)), is, false)
+    },
+
     "returns false given a boolean"() {
         expect(isInteger(true), is, false)
     },

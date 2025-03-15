@@ -158,7 +158,25 @@ export function isInteger(value: unknown): value is number {
     return Number.isInteger(value)
 }
 
-// TODO: isSafeInteger
+/** ### `isSafeInteger` function */
+/**
+ * @Returns true iff the given `value` is a  whole number that can be
+ * unambiguously represented in [IEEE 754 64-bit floating point]. Integers in
+ * the range [-(2^53 - 1), 2^53 - 1], inclusive, are considered safe. For more
+ * information, see the [MDN documentation for Number.isSafeInteger].
+ *
+ * [IEEE 754 64-bit floating point]: https://en.wikipedia.org/wiki/IEEE_754
+ * [MDN documentation for Number.isSafeInteger]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger
+ *
+ * `isSafeInteger` is provided as an alias for the platform-native
+ * `Number.isSafeInteger` because the latter does not narrow the type of its
+ * argument in TypeScript 5.7.3. Prefer `Number.isSafeInteger` in
+ * non-TypeScript programs.
+ */
+
+export function isSafeInteger(value: unknown): value is number {
+    return Number.isSafeInteger(value)
+}
 
 /**
  * ## Display Names

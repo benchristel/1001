@@ -100,6 +100,21 @@ export function isString(value: unknown): value is string {
     return typeof value === "string"
 }
 
+/** ### `isNumber` function */
+/**
+ * @Returns true iff the given `value` is of type `number`. Note that
+ * `isNumber` considers `NaN`, `Infinity`, and `-Infinity` to be numbers,
+ * because they satisfy the `number` type. For stricter checks, see
+ * {@link isRealNumber} and {@link isInteger}.
+ */
+
+export function isNumber(value: unknown): value is number {
+    return typeof value === "number"
+}
+
+// TODO: isRealNumber
+// TODO: isInteger
+
 /**
  * ## Display Names
  *

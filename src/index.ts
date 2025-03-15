@@ -91,9 +91,9 @@ interface JsonableObject {
  * This section contains functions that check the type of a value at runtime.
  */
 
-/** `isString` function */
+/** ### `isString` function */
 /**
- * @Returns whether the given `value` is a `string`.
+ * @Returns true iff the given `value` is a `string`.
  */
 
 export function isString(value: unknown): value is string {

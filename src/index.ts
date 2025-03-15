@@ -19,8 +19,8 @@
  *   when they have proven useful under real-world conditions.
  * - **Test-driven development:** Each public export has at least one
  *   corresponding test file in the `test` directory: either a unit test file,
- *   or a `tsd` type test file, or both. Every complication to the library must
- *   be motivated by a test.
+ *   or a `tsd` type test file, or both. Every complication and bugfix must be
+ *   motivated by a test.
  * - **Functional programming:** We avoid mutating shared objects. We strive to
  *   enable clients of this library to write compositional, point-free,
  *   typesafe programs.

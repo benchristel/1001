@@ -1,5 +1,5 @@
 import {test, expect, equals} from "@benchristel/taste"
-import {Result} from "./result.js"
+import {Result, Success} from "./result.js"
 
 /**
  * ## Config File Exercise

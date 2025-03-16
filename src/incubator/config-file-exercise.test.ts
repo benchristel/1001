@@ -105,6 +105,20 @@ const ProblemReadingConfig_NotFound = "ProblemReadingConfig_NotFound"
 const ProblemReadingConfig_NoPermission = "ProblemReadingConfig_NoPermission"
 const ProblemReadingConfig_SyntaxError = "ProblemReadingConfig_SyntaxError"
 
+test("readFileAsTask", {
+    "succeeds"() {
+        throw "TODO"
+    },
+
+    "fails when the file doesn't exist"() {
+        throw "TODO"
+    },
+
+    "fails when we don't have read permission"() {
+        throw "TODO"
+    },
+})
+
 /** */
 type ReadFileAsTask = typeof readFileAsTask
 
@@ -129,6 +143,20 @@ type ProblemReadingFile =
 
 const ProblemReadingFile_NotFound = "ProblemReadingFile_NotFound"
 const ProblemReadingFile_NoPermission = "ProblemReadingFile_NoPermission"
+
+test("parseConfigAsResult", {
+    "succeeds"() {
+        throw "TODO"
+    },
+
+    "fails with a line number when the parse error has one"() {
+        throw "TODO"
+    },
+
+    "fails without a line number when the parse error has none"() {
+        throw "TODO"
+    },
+})
 
 /** */
 type ParseConfigAsResult = typeof parseConfigAsResult

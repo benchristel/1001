@@ -78,8 +78,8 @@ test("readConfigLevel1", {
 
 /** */
 async function readConfigLevel1(
-    readFile: ReadFile,
-    parseConfig: ParseConfig,
+    readFile: ReadFileAsTask,
+    parseConfig: ParseConfigAsResult,
     path: string,
 ): Task<Config, ProblemReadingConfig> {
     throw "not implemented"
@@ -106,6 +106,9 @@ const ProblemReadingConfig_NoPermission = "ProblemReadingConfig_NoPermission"
 const ProblemReadingConfig_SyntaxError = "ProblemReadingConfig_SyntaxError"
 
 /** */
+type ReadFileAsTask = typeof readFileAsTask
+
+/** */
 async function readFileAsTask(
     readFile: ReadFile,
     path: string,
@@ -126,3 +129,21 @@ type ProblemReadingFile =
 
 const ProblemReadingFile_NotFound = "ProblemReadingFile_NotFound"
 const ProblemReadingFile_NoPermission = "ProblemReadingFile_NoPermission"
+
+/** */
+type ParseConfigAsResult = typeof parseConfigAsResult
+
+/** */
+function parseConfigAsResult(
+    parseConfig: ParseConfig,
+    text: string,
+): Result<string, ProblemParsingConfig> {
+    throw "not implemented"
+}
+
+type ProblemParsingConfig = {
+    mode: typeof ProblemParsingConfig_SyntaxError;
+    line?: string;
+}
+
+const ProblemParsingConfig_SyntaxError = "ProblemParsingConfig_SyntaxError"

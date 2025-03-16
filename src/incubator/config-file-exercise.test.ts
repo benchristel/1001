@@ -1,5 +1,5 @@
-import {test, expect, equals} from "@benchristel/taste"
-import {Result, Success} from "./result.js"
+import {test, expect, is} from "@benchristel/taste"
+import {Result, success, Success} from "./result.js"
 
 /**
  * ## Config File Exercise
@@ -55,8 +55,17 @@ type Task<S, F> = Promise<Result<S, F>>
  */
 
 test("readConfigLevel1", {
-    "succeeds"() {
-        throw "TODO"
+    async "succeeds"() {
+        // Arrange outputs:
+        const theConfig = new Config()
+        // Arrange inputs:
+        const readFile: ReadFileAsTask = () => Promise.resolve(success(""))
+        const parseConfig: ParseConfigAsResult = () => success(theConfig)
+        const path = "the-path.cfg"
+
+        const result = await readConfigLevel1(readFile, parseConfig, path)
+
+        expect(result, is, theConfig)
     },
 
     "fails when the file doesn't exist"() {
@@ -165,7 +174,7 @@ type ParseConfigAsResult = typeof parseConfigAsResult
 function parseConfigAsResult(
     parseConfig: ParseConfig,
     text: string,
-): Result<string, ProblemParsingConfig> {
+): Result<Config, ProblemParsingConfig> {
     throw "not implemented"
 }
 

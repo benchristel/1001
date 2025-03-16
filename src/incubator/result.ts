@@ -59,3 +59,11 @@ export function assertSuccess<S, F>(
         throw new Error("Assertion failed: expected a Success, but got a Failure")
     }
 }
+
+export function assertFailure<S, F>(
+    result: Result<S, F>,
+): asserts result is Failure<F> {
+    if (result.isSuccess()) {
+        throw new Error("Assertion failed: expected a Failure, but got a Success")
+    }
+}

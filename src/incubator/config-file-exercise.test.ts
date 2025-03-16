@@ -1,6 +1,6 @@
 import {test, expect, is} from "@benchristel/taste"
-import {assertSuccess, flatMapSuccess, mapFailure, Result, success, Success} from "./result.js"
-
+import {assertFailure, assertSuccess, failure, flatMapSuccess, mapFailure, Result, success, Success} from "./result.js"
+import {curry} from "../index.js"
 /**
  * ## Config File Exercise
  *
@@ -35,13 +35,10 @@ import {assertSuccess, flatMapSuccess, mapFailure, Result, success, Success} fro
  * Stubs for APIs given in the exercise:
  */
 
-/** */
 type ReadFile = (path: string) => Promise<string>
 
-/** */
 type ParseConfig = (text: string) => Config
 
-/** */
 class Config {}
 
 /*
@@ -59,8 +56,8 @@ test("readConfigLevel1", {
         // Arrange outputs:
         const theConfig = new Config()
         // Arrange inputs:
-        const readFile: ReadFileAsTask = () => Promise.resolve(success(""))
-        const parseConfig: ParseConfigAsResult = () => success(theConfig)
+        const readFile = () => Promise.resolve(success(""))
+        const parseConfig = () => success(theConfig)
         const path = "the-path.cfg"
 
         const result = await readConfigLevel1(readFile, parseConfig, path)
@@ -69,8 +66,21 @@ test("readConfigLevel1", {
         expect(result.value, is, theConfig)
     },
 
-    "fails when the file doesn't exist"() {
-        throw "TODO"
+    async "fails when the file doesn't exist"() {
+        // Arrange inputs:
+        const readFile: ReadFileAsTask = async (path: string) => {
+            return failure({mode: ProblemReadingFile_NotFound, path})
+        }
+        const parseConfig = () => {
+            throw "parseConfig shouldn't be called"
+        }
+        const path = "the-path.cfg"
+
+        const result = await readConfigLevel1(readFile, parseConfig, path)
+
+        assertFailure(result)
+        expect(result.detail.mode, is, ProblemReadingConfig_NotFound)
+        expect(result.detail.path, is, "the-path.cfg")
     },
 
     "fails when we don't have permission to read the file"() {
@@ -86,7 +96,6 @@ test("readConfigLevel1", {
     },
 })
 
-/** */
 async function readConfigLevel1(
     readFile: ReadFileAsTask,
     parseConfig: ParseConfigAsResult,
@@ -94,10 +103,9 @@ async function readConfigLevel1(
 ): Task<Config, ProblemReadingConfig> {
     return readFile(path)
         .then(flatMapSuccess(parseConfig))
-        .then(mapFailure(toProblemReadingConfig))
+        .then(mapFailure(toProblemReadingConfig(path)))
 }
 
-/** */
 type ProblemReadingConfig =
     | {
         mode: typeof ProblemReadingConfig_NotFound;
@@ -117,9 +125,24 @@ const ProblemReadingConfig_NotFound = "ProblemReadingConfig_NotFound"
 const ProblemReadingConfig_NoPermission = "ProblemReadingConfig_NoPermission"
 const ProblemReadingConfig_SyntaxError = "ProblemReadingConfig_SyntaxError"
 
-function toProblemReadingConfig(problem: ProblemReadingFile | ProblemParsingConfig): ProblemReadingConfig {
-    throw "toProblemReadingConfig not implemented"
-}
+const toProblemReadingConfig = curry(
+    function (
+        path: string,
+        problem: ProblemReadingFile | ProblemParsingConfig,
+    ): ProblemReadingConfig {
+        const {mode} = problem
+        switch (mode) {
+            case ProblemReadingFile_NotFound:
+                return {mode: ProblemReadingConfig_NotFound, path}
+            case ProblemReadingFile_NoPermission:
+                return {mode: ProblemReadingConfig_NoPermission, path}
+            case ProblemParsingConfig_SyntaxError:
+                return {mode: ProblemReadingConfig_SyntaxError, path}
+            default:
+                throw impossible("failure mode", mode)
+        }
+    },
+)
 
 test("readFileAsTask", {
     "succeeds"() {
@@ -135,17 +158,14 @@ test("readFileAsTask", {
     },
 })
 
-/** */
 type ReadFileAsTask = (path: string) => Task<string, ProblemReadingFile>
 
-/** */
 function readFileAsTask(readFile: ReadFile): ReadFileAsTask {
     return async function (path) {
         throw "not implemented"
     }
 }
 
-/** */
 type ProblemReadingFile =
     | {
         mode: typeof ProblemReadingFile_NotFound;
@@ -173,11 +193,9 @@ test("parseConfigAsResult", {
     },
 })
 
-/** */
 type ParseConfigAsResult =
     (text: string) => Result<Config, ProblemParsingConfig>
 
-/** */
 function parseConfigAsResult(parseConfig: ParseConfig): ParseConfigAsResult {
     return function (text) {
         throw "not implemented"
@@ -190,3 +208,7 @@ type ProblemParsingConfig = {
 }
 
 const ProblemParsingConfig_SyntaxError = "ProblemParsingConfig_SyntaxError"
+
+function impossible(message: string, value: never): Error {
+    return new Error(`impossible ${message} ${value}`)
+}

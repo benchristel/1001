@@ -1,3 +1,4 @@
+import {test, expect, equals} from "@benchristel/taste"
 import {Result} from "./result.js"
 
 /**
@@ -52,6 +53,28 @@ type Task<S, F> = Promise<Result<S, F>>
 /*
  * The solution to the exercise:
  */
+
+test("readConfigLevel1", {
+    "succeeds"() {
+        throw "TODO"
+    },
+
+    "fails when the file doesn't exist"() {
+        throw "TODO"
+    },
+
+    "fails when we don't have permission to read the file"() {
+        throw "TODO"
+    },
+
+    "fails when there is a syntax error containing a line number"() {
+        throw "TODO"
+    },
+
+    "fails when there is a syntax error without a line number"() {
+        throw "TODO"
+    },
+})
 
 /** */
 async function readConfigLevel1(

@@ -9,7 +9,7 @@ export interface Success<S> {
 export interface Failure<F> {
     type: "failure";
     detail: F;
-    mapSuccess<SOut>(): Failure<F>;
+    mapSuccess<SOut>(_: unknown): Failure<F>;
 }
 
 export function success<S>(value: S): Success<S> {
@@ -26,7 +26,7 @@ export function failure<F>(detail: F): Failure<F> {
     return {
         type: "failure",
         detail,
-        mapSuccess() {
+        mapSuccess(_: unknown) {
             return failure(detail)
         },
     }

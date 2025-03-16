@@ -1,5 +1,5 @@
 import {test, expect, is} from "@benchristel/taste"
-import {Result, success, Success} from "./result.js"
+import {assertSuccess, flatMapSuccess, mapFailure, Result, success, Success} from "./result.js"
 
 /**
  * ## Config File Exercise
@@ -65,7 +65,8 @@ test("readConfigLevel1", {
 
         const result = await readConfigLevel1(readFile, parseConfig, path)
 
-        expect(result, is, theConfig)
+        assertSuccess(result)
+        expect(result.value, is, theConfig)
     },
 
     "fails when the file doesn't exist"() {
@@ -91,7 +92,9 @@ async function readConfigLevel1(
     parseConfig: ParseConfigAsResult,
     path: string,
 ): Task<Config, ProblemReadingConfig> {
-    throw "not implemented"
+    return readFile(path)
+        .then(flatMapSuccess(parseConfig))
+        .then(mapFailure(toProblemReadingConfig))
 }
 
 /** */
@@ -114,6 +117,10 @@ const ProblemReadingConfig_NotFound = "ProblemReadingConfig_NotFound"
 const ProblemReadingConfig_NoPermission = "ProblemReadingConfig_NoPermission"
 const ProblemReadingConfig_SyntaxError = "ProblemReadingConfig_SyntaxError"
 
+function toProblemReadingConfig(problem: ProblemReadingFile | ProblemParsingConfig): ProblemReadingConfig {
+    throw "toProblemReadingConfig not implemented"
+}
+
 test("readFileAsTask", {
     "succeeds"() {
         throw "TODO"
@@ -129,14 +136,13 @@ test("readFileAsTask", {
 })
 
 /** */
-type ReadFileAsTask = typeof readFileAsTask
+type ReadFileAsTask = (path: string) => Task<string, ProblemReadingFile>
 
 /** */
-async function readFileAsTask(
-    readFile: ReadFile,
-    path: string,
-): Task<string, ProblemReadingFile> {
-    throw "not implemented"
+function readFileAsTask(readFile: ReadFile): ReadFileAsTask {
+    return async function (path) {
+        throw "not implemented"
+    }
 }
 
 /** */
@@ -168,14 +174,14 @@ test("parseConfigAsResult", {
 })
 
 /** */
-type ParseConfigAsResult = typeof parseConfigAsResult
+type ParseConfigAsResult =
+    (text: string) => Result<Config, ProblemParsingConfig>
 
 /** */
-function parseConfigAsResult(
-    parseConfig: ParseConfig,
-    text: string,
-): Result<Config, ProblemParsingConfig> {
-    throw "not implemented"
+function parseConfigAsResult(parseConfig: ParseConfig): ParseConfigAsResult {
+    return function (text) {
+        throw "not implemented"
+    }
 }
 
 type ProblemParsingConfig = {

@@ -53,13 +53,16 @@ type Task<S, F> = Promise<Result<S, F>>
  * The solution to the exercise:
  */
 
-function readConfigLevel1(
+/** */
+async function readConfigLevel1(
     readFile: ReadFile,
+    parseConfig: ParseConfig,
     path: string,
 ): Task<Config, ProblemReadingConfig> {
     throw "not implemented"
 }
 
+/** */
 type ProblemReadingConfig =
     | {
         mode: typeof ProblemReadingConfig_NotFound;
@@ -72,7 +75,6 @@ type ProblemReadingConfig =
     | {
         mode: typeof ProblemReadingConfig_SyntaxError;
         path: string;
-        text: string;
         line?: string;
     }
 
@@ -80,11 +82,24 @@ const ProblemReadingConfig_NotFound = "ProblemReadingConfig_NotFound"
 const ProblemReadingConfig_NoPermission = "ProblemReadingConfig_NoPermission"
 const ProblemReadingConfig_SyntaxError = "ProblemReadingConfig_SyntaxError"
 
-function readFileAsTask(
+/** */
+async function readFileAsTask(
     readFile: ReadFile,
     path: string,
 ): Task<string, ProblemReadingFile> {
     throw "not implemented"
 }
 
-type ProblemReadingFile = {}
+/** */
+type ProblemReadingFile =
+    | {
+        mode: typeof ProblemReadingFile_NotFound;
+        path: string;
+    }
+    | {
+        mode: typeof ProblemReadingFile_NoPermission;
+        path: string;
+    }
+
+const ProblemReadingFile_NotFound = "ProblemReadingFile_NotFound"
+const ProblemReadingFile_NoPermission = "ProblemReadingFile_NoPermission"

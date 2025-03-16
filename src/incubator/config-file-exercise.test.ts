@@ -83,17 +83,17 @@ test("readConfigLevel1", {
         expect(result.detail.path, is, "the-path.cfg")
     },
 
-    "fails when we don't have permission to read the file"() {
-        throw "TODO"
-    },
+    // "fails when we don't have permission to read the file"() {
+    //     throw "TODO"
+    // },
 
-    "fails when there is a syntax error containing a line number"() {
-        throw "TODO"
-    },
+    // "fails when there is a syntax error containing a line number"() {
+    //     throw "TODO"
+    // },
 
-    "fails when there is a syntax error without a line number"() {
-        throw "TODO"
-    },
+    // "fails when there is a syntax error without a line number"() {
+    //     throw "TODO"
+    // },
 })
 
 async function readConfigLevel1(
@@ -145,17 +145,17 @@ const toProblemReadingConfig = curry(
 )
 
 test("readFileAsTask", {
-    "succeeds"() {
-        throw "TODO"
-    },
+    // "succeeds"() {
+    //     throw "TODO"
+    // },
 
-    "fails when the file doesn't exist"() {
-        throw "TODO"
-    },
+    // "fails when the file doesn't exist"() {
+    //     throw "TODO"
+    // },
 
-    "fails when we don't have read permission"() {
-        throw "TODO"
-    },
+    // "fails when we don't have read permission"() {
+    //     throw "TODO"
+    // },
 })
 
 type ReadFileAsTask = (path: string) => Task<string, ProblemReadingFile>
@@ -180,17 +180,17 @@ const ProblemReadingFile_NotFound = "ProblemReadingFile_NotFound"
 const ProblemReadingFile_NoPermission = "ProblemReadingFile_NoPermission"
 
 test("parseConfigAsResult", {
-    "succeeds"() {
-        throw "TODO"
-    },
+    // "succeeds"() {
+    //     throw "TODO"
+    // },
 
-    "fails with a line number when the parse error has one"() {
-        throw "TODO"
-    },
+    // "fails with a line number when the parse error has one"() {
+    //     throw "TODO"
+    // },
 
-    "fails without a line number when the parse error has none"() {
-        throw "TODO"
-    },
+    // "fails without a line number when the parse error has none"() {
+    //     throw "TODO"
+    // },
 })
 
 type ParseConfigAsResult =

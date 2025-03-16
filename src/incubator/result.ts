@@ -1,10 +1,10 @@
 type Function1<A, Ret> = (a: A) => Ret
 
-type Result<S, F> = Success<S, F> | Failure<S, F>
+export type Result<S, F> = Success<S, F> | Failure<S, F>
 
 (null as any as Result<true, false>) satisfies ResultLike<true, false>
 
-interface ResultLike<S, F> {
+export interface ResultLike<S, F> {
     isSuccess(): this is Success<S, F>;
     isFailure(): this is Failure<S, F>;
     assertSuccess(): asserts this is Success<S, F>;
@@ -41,7 +41,7 @@ interface ResultLike<S, F> {
     // selectively recover from some failures.
 }
 
-class Success<S, F> implements ResultLike<S, F> {
+export class Success<S, F> implements ResultLike<S, F> {
     constructor(public readonly value: S) {}
 
     isSuccess(): this is Success<S, F> {
@@ -71,7 +71,7 @@ class Success<S, F> implements ResultLike<S, F> {
 
 }
 
-class Failure<S, F> implements ResultLike<S, F> {
+export class Failure<S, F> implements ResultLike<S, F> {
     constructor(public readonly detail: F) {}
 
     assertSuccess(): asserts this is Success<S, F> {

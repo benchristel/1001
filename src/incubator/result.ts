@@ -1,43 +1,41 @@
 export type Result<S, F> = Success<S> | Failure<F>
 
-export interface Success<S> {
-    type: "success";
-    value: S;
-    isSuccess(): this is Success<S>;
-    mapSuccess<SOut>(f: (value: S) => SOut): Success<SOut>;
+export class Success<S> {
+    public readonly type = "success"
+
+    constructor(public readonly value: S) {}
+
+    isSuccess(): this is Success<S> {
+        return true
+    }
+
+    mapSuccess<SOut>(f: (value: S) => SOut): Success<SOut> {
+        return success(f(this.value))
+    }
 }
 
-export interface Failure<F> {
-    type: "failure";
-    detail: F;
-    isSuccess(): this is Success<never>;
-    mapSuccess<SOut>(_: unknown): Failure<F>;
+type UnusedCallback = (...args: any[]) => unknown
+
+export class Failure<F> {
+    public readonly type = "failure"
+
+    constructor(public readonly detail: F) {}
+
+    isSuccess(): this is Success<never> {
+        return false
+    }
+
+    mapSuccess(_: UnusedCallback): Failure<F> {
+        return this
+    }
 }
 
 export function success<S>(value: S): Success<S> {
-    return {
-        type: "success",
-        value,
-        isSuccess(): this is Success<S> {
-            return true
-        },
-        mapSuccess(f) {
-            return success(f(value))
-        },
-    }
+    return new Success(value)
 }
 
 export function failure<F>(detail: F): Failure<F> {
-    return {
-        type: "failure",
-        detail,
-        isSuccess(): this is Success<never> {
-            return false
-        },
-        mapSuccess(_: unknown) {
-            return failure(detail)
-        },
-    }
+    return new Failure(detail)
 }
 
 export function flatMapSuccess<SIn, FIn, SOut, FOut>(
